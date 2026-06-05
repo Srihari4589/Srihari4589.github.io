@@ -239,7 +239,90 @@ hr.div{border:none;border-top:1px solid var(--border);}
 </div>
 
 <!-- COMING SOON PAGES -->
-<div class="page" id="p-dataprep"><div class="coming"><div class="coming-icon">📊</div><h2>DataPrep / EDA</h2><p>Data collection, API integration, cleaning pipeline, and exploratory visualizations will appear here as the project progresses.</p><span class="pill">In Progress</span></div></div>
+<div class="page" id="p-dataprep">
+  <div style="padding-top:60px;">
+    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sec-label">Module 1 Project</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">Data Preparation &amp; EDA</h2>
+        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">This section documents how data was gathered, cleaned, and explored to support credit risk research. Two data sources were used: the Lending Club loan dataset and Federal Reserve economic data via the FRED API.</p>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-label">Data Sources</div>
+      <h2>Where the Data Comes From</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>📂 Lending Club Dataset</h3>
+          <p>Real-world loan records from 2007 to 2018, containing over 2.26 million accepted loan applications with 151 features including borrower income, credit score, loan grade, interest rate, and loan outcome. Downloaded from Kaggle.</p>
+          <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:0.5rem;">
+            <a href="https://www.kaggle.com/datasets/wordsforthewise/lending-club" target="_blank" style="font-size:0.8rem;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:0.4rem 0.8rem;display:inline-block;">Raw Data Source (Kaggle)</a>
+            <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="font-size:0.8rem;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:0.4rem 0.8rem;display:inline-block;">Cleaned Sample Data (CSV)</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>📡 FRED API — Federal Reserve</h3>
+          <p>Macroeconomic time series data pulled directly via the FRED API (Federal Reserve Bank of St. Louis). Includes monthly unemployment rate, credit card delinquency rate, consumer debt levels, and federal funds interest rate from 2010 to present.</p>
+          <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:0.5rem;">
+            <a href="https://fred.stlouisfed.org" target="_blank" style="font-size:0.8rem;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:0.4rem 0.8rem;display:inline-block;">FRED API Source</a>
+            <a href="https://srihari4589.github.io/fred_cleaned.csv" target="_blank" style="font-size:0.8rem;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:0.4rem 0.8rem;display:inline-block;">Cleaned FRED Data (CSV)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="div"/>
+    <div class="section">
+      <div class="sec-label">Data Preview</div>
+      <h2>Raw Data vs Cleaned Data</h2>
+      <p>The Lending Club dataset originally contained 2,260,701 rows and 151 columns. After selecting 16 relevant features, filtering to completed loans only, and handling missing values, the cleaned dataset contains 1,344,080 rows. A stratified sample of 49,731 rows was created preserving the 19.96% default rate.</p>
+      <div class="card-grid" style="margin-top:2rem;">
+        <div class="card"><h3>Raw — Lending Club</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">Shape: (2,260,701 x 151)<br/>Missing: emp_length=146,940<br/>dti=1,744 revol_util=1,835<br/>loan_status: 9 unique values</p></div>
+        <div class="card"><h3>Cleaned — Lending Club</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">Shape: (1,344,080 x 16)<br/>Missing values: 0<br/>default rate: 19.96%<br/>Binary target: 0=Paid 1=Default</p></div>
+        <div class="card"><h3>Raw — FRED API</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">Shape: (197 x 5)<br/>Missing: delinquency=132<br/>(quarterly reported monthly)<br/>Date range: 2010-2024</p></div>
+        <div class="card"><h3>Cleaned — FRED</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">Shape: (194 x 5)<br/>Missing values: 0<br/>Forward fill applied<br/>Date range: 2010-2024</p></div>
+      </div>
+    </div>
+    <hr class="div"/>
+    <div class="section">
+      <div class="sec-label">Data Cleaning</div>
+      <h2>Cleaning Steps Applied</h2>
+      <div class="card-grid">
+        <div class="card"><h3>1. Column Selection</h3><p>Reduced 151 columns to 16 most relevant features for credit risk — loan amount, grade, interest rate, income, DTI, FICO score, employment, and more.</p></div>
+        <div class="card"><h3>2. Target Variable</h3><p>Created binary target: 1 = Charged Off (defaulted), 0 = Fully Paid. Removed all loans with unclear outcomes such as Current, Late, and Grace Period.</p></div>
+        <div class="card"><h3>3. Missing Values</h3><p>Filled missing employment length with "Unknown" (146,940 rows). Dropped remaining rows with missing values. Applied forward fill to FRED quarterly delinquency data.</p></div>
+        <div class="card"><h3>4. Stratified Sampling</h3><p>Created a 49,731-row stratified sample preserving the exact 19.96% default rate for web use, while keeping the full 1.34M dataset for ML modeling.</p></div>
+      </div>
+    </div>
+    <hr class="div"/>
+    <div class="section">
+      <div class="sec-label">Code</div>
+      <h2>Data Collection &amp; Cleaning Code</h2>
+      <p>All data collection, cleaning, and visualization code was written in Python using Pandas, NumPy, Matplotlib, Seaborn, and the fredapi library. The full notebook is available on GitHub.</p>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">pandas, numpy, matplotlib, seaborn, fredapi</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
+      </div>
+    </div>
+    <hr class="div"/>
+    <div class="section">
+      <div class="sec-label">Exploratory Data Analysis</div>
+      <h2>10 Visualizations</h2>
+      <p>The following visualizations explore the structure, distributions, and patterns in the credit risk data. Each figure includes a caption explaining what it shows and what it means for credit risk prediction.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:2rem;margin-top:2.5rem;">
+        <div class="card" style="padding:1rem;"><img src="viz1_default_distribution.png" alt="Default vs Fully Paid" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz2_default_by_grade.png" alt="Default by Grade" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz3_loan_amount_distribution.png" alt="Loan Amount Distribution" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz4_income_vs_default.png" alt="Income vs Default" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz5_default_by_purpose.png" alt="Default by Purpose" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz6_interest_rate_distribution.png" alt="Interest Rate Distribution" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz7_correlation_heatmap.png" alt="Correlation Heatmap" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz8_default_by_employment.png" alt="Default by Employment" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz9_unemployment_rate.png" alt="Unemployment Rate" style="width:100%;border-radius:4px;"/></div>
+        <div class="card" style="padding:1rem;"><img src="viz10_delinquency_rate.png" alt="Delinquency Rate" style="width:100%;border-radius:4px;"/></div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="page" id="p-clustering"><div class="coming"><div class="coming-icon">🔵</div><h2>Clustering</h2><p>K-Means and hierarchical clustering identifying natural borrower risk segments will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-arm"><div class="coming"><div class="coming-icon">🔗</div><h2>ARM — Association Rule Mining</h2><p>Apriori algorithm results revealing associations between loan features and default outcomes will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-naivebayes"><div class="coming"><div class="coming-icon">📐</div><h2>Naive Bayes</h2><p>Probabilistic classification models for loan default prediction with full results will appear here.</p><span class="pill">Coming Soon</span></div></div>
