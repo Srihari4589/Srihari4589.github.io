@@ -254,9 +254,19 @@ hr.div{border:none;border-top:1px solid var(--border);}
       <div class="sec-label">Data Preview</div>
       <h2>Raw Data vs Cleaned Data</h2>
       <p>The Lending Club dataset originally contained 2,260,701 rows and 151 columns. After selecting 16 relevant features, filtering to completed loans only, and handling missing values, the cleaned dataset contains 1,344,080 rows. A stratified sample of 49,731 rows was created preserving the 19.96% default rate.</p>
-      <div class="card-grid" style="margin-top:2rem;">
-        <div class="card"><h3>Raw — Lending Club</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">Shape: (2,260,701 x 151)<br/>Missing: emp_length=146,940<br/>dti=1,744 revol_util=1,835<br/>loan_status: 9 unique values</p></div>
-        <div class="card"><h3>Cleaned — Lending Club</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">Shape: (1,344,080 x 16)<br/>Missing values: 0<br/>default rate: 19.96%<br/>Binary target: 0=Paid 1=Default</p></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Raw Data — Lending Club</h3>
+          <img src="raw_data_preview.png" alt="Raw Lending Club Data Preview" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Shape: 2,260,701 rows x 151 columns. Contains NaNs, 9 loan status categories, and many irrelevant columns.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Cleaned Data — Lending Club</h3>
+          <img src="clean_data_preview.png" alt="Cleaned Lending Club Data Preview" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Shape: 1,344,080 rows x 16 columns. Zero missing values. Binary target column added: 0 = Fully Paid, 1 = Default.</p>
+        </div>
+      </div>
+      <div class="card-grid" style="margin-top:1.5rem;">
         <div class="card"><h3>Raw — FRED API</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">Shape: (197 x 5)<br/>Missing: delinquency=132<br/>(quarterly reported monthly)<br/>Date range: 2010-2024</p></div>
         <div class="card"><h3>Cleaned — FRED</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">Shape: (194 x 5)<br/>Missing values: 0<br/>Forward fill applied<br/>Date range: 2010-2024</p></div>
       </div>
@@ -278,6 +288,10 @@ hr.div{border:none;border-top:1px solid var(--border);}
       <h2>Data Collection &amp; Cleaning Code</h2>
       <p>All data collection, cleaning, and visualization code was written in Python using Pandas, NumPy, Matplotlib, Seaborn, and the fredapi library. The full notebook is available on GitHub.</p>
       <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/dataprep_eda.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.2rem 1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.5rem;font-weight:500;">FRED API — Core Endpoint &amp; URL GET Example</p>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;margin:0;line-height:1.8;">Base URL: https://api.stlouisfed.org/fred/series/observations<br/>Example GET: https://api.stlouisfed.org/fred/series/observations?series_id=UNRATE&amp;api_key=YOUR_KEY&amp;file_type=json<br/>Series used: UNRATE, DRCCLACBS, TOTALSL, FEDFUNDS</p>
+      </div>
       <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
         <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">pandas, numpy, matplotlib, seaborn, fredapi</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
       </div>
