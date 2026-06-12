@@ -85,6 +85,8 @@ hr.div{border:none;border-top:1px solid var(--border);}
       <li><a href="#" onclick="show('svms');return false;" id="t-svms">SVMs</a></li>
       <li><a href="#" onclick="show('regression');return false;" id="t-regression">Regression</a></li>
       <li><a href="#" onclick="show('nn');return false;" id="t-nn">NN</a></li>
+      <li><a href="#" onclick="show('pca');return false;" id="t-pca">PCA</a></li>
+      <li><a href="#" onclick="show('pca');return false;" id="t-pca">PCA</a></li>
       <li><a href="#" onclick="show('conclusions');return false;" id="t-conclusions">Conclusions</a></li>
       <li><a href="#" onclick="show('about');return false;" id="t-about">About Me</a></li>
     </ul>
@@ -315,13 +317,325 @@ hr.div{border:none;border-top:1px solid var(--border);}
     </div>
   </div>
 </div>
-<div class="page" id="p-clustering"><div class="coming"><div class="coming-icon">🔵</div><h2>Clustering</h2><p>K-Means and hierarchical clustering identifying natural borrower risk segments will appear here.</p><span class="pill">Coming Soon</span></div></div>
+<div class="page" id="p-clustering">
+  <div style="padding-top:60px;">
+    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sec-label">Module 2 Project</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">Clustering</h2>
+        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Applying K-Means and Hierarchical clustering to identify natural borrower segments in the credit risk dataset and discover which groups are most associated with loan default.</p>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <div class="sec-label">Overview</div>
+      <h2>What Is Clustering?</h2>
+      <p>Clustering is an unsupervised machine learning technique that groups data points together based on similarity — without being told in advance what the groups should be. Unlike supervised learning, clustering discovers natural patterns in data on its own. In the context of credit risk, clustering can reveal natural segments of borrowers that share similar financial profiles, helping lenders understand who their customers really are beyond simple credit scores.</p>
+      <p>Two main approaches are used in this analysis. The first is <strong style="color:var(--gold2);">K-Means clustering</strong> — a partitional method that divides borrowers into a fixed number of groups (k) by minimizing the distance between each borrower and the center of their assigned cluster. K-Means is fast, scalable, and works well on large datasets like the Lending Club data. The second approach is <strong style="color:var(--gold2);">Hierarchical clustering</strong> — specifically agglomerative clustering — which builds a tree of clusters from the bottom up by merging the most similar borrowers step by step. The result is a dendrogram that visually shows how clusters relate to each other at different levels of similarity.</p>
+      <p>For the hierarchical clustering, <strong style="color:var(--gold2);">Cosine Similarity</strong> is used as the distance measure. Cosine similarity measures the angle between two data vectors — making it effective for detecting borrowers who have proportionally similar financial profiles even if their absolute values differ. The combination of K-Means and hierarchical clustering provides both a scalable segmentation and a detailed visual understanding of borrower groupings in the credit risk dataset.</p>
+
+      <div class="card-grid" style="margin-top:2rem;">
+        <div class="card">
+          <h3>K-Means Clustering</h3>
+          <p>Partitional method — divides borrowers into k groups by minimizing within-cluster distance. Fast and scalable for large datasets. Best k selected using the Silhouette method.</p>
+        </div>
+        <div class="card">
+          <h3>Hierarchical Clustering</h3>
+          <p>Agglomerative method — builds a tree of clusters bottom-up. Uses Cosine Similarity as distance measure. Results visualized as a dendrogram showing cluster relationships.</p>
+        </div>
+        <div class="card">
+          <h3>Goal</h3>
+          <p>Identify natural borrower segments and determine which clusters have the highest default rates — providing actionable insight for credit risk assessment.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <img src="clustering_overview1.png" alt="K-Means Clustering Diagram" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. K-Means clustering assigns each borrower to the nearest cluster center. The algorithm iterates until cluster assignments stabilize.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <img src="clustering_overview2.png" alt="Hierarchical Clustering Diagram" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Hierarchical clustering builds a dendrogram by merging the most similar borrowers step by step until all are connected.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- DATA PREP -->
+    <div class="section">
+      <div class="sec-label">Data</div>
+      <h2>Data Preparation for Clustering</h2>
+      <p>Clustering requires unlabeled numeric data only. The target variable (default) is removed, and only numeric features are kept. The data is then normalized so that all features contribute equally to distance calculations. The following 7 numeric features are used for clustering:</p>
+      <div class="card-grid" style="margin-top:1.5rem;">
+        <div class="card"><h3>Features Used</h3><p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;line-height:1.8;">loan_amnt<br/>int_rate<br/>annual_inc<br/>dti<br/>fico_range_low<br/>revol_util<br/>delinq_2yrs</p></div>
+        <div class="card"><h3>Preprocessing</h3><p>Target variable removed. Non-numeric columns dropped. Missing values filled. StandardScaler applied to normalize all features to mean=0, std=1.</p></div>
+        <div class="card"><h3>Sample Size</h3><p>49,731 rows from the stratified Lending Club sample. Full dataset kept to ensure clustering captures the true distribution of borrower profiles.</p></div>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <div class="card" style="padding:1.2rem;">
+          <img src="clustering_data_preview.png" alt="Clustering Data Preview" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Sample of the normalized numeric data used for clustering. All features scaled to mean=0, std=1 before applying K-Means and hierarchical clustering.</p>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Raw Data (CSV)</a>
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Cleaned Data (CSV)</a>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CODE -->
+    <div class="section">
+      <div class="sec-label">Code</div>
+      <h2>Clustering Code</h2>
+      <p>All clustering code was written in Python using Scikit-learn for K-Means, SciPy for hierarchical clustering, and Matplotlib/Seaborn for visualization. The full notebook is available on GitHub.</p>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/clustering.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View Clustering Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">scikit-learn, scipy, matplotlib, seaborn, pandas</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- RESULTS -->
+    <div class="section">
+      <div class="sec-label">Results</div>
+      <h2>Clustering Results</h2>
+      <p>K-Means clustering was run with k=2, k=3, and k=4 to compare results. The Silhouette method was used to identify the best value of k. Hierarchical clustering was also performed and visualized as a dendrogram using Cosine Similarity.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:2rem;margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="clustering_silhouette.png" alt="Silhouette Analysis" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Silhouette scores for k=2, k=3, and k=4. Higher silhouette score indicates better-defined clusters.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="clustering_kmeans.png" alt="K-Means Clustering Results" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 5. K-Means clustering results showing borrower segments. Each color represents a distinct cluster of borrowers with similar financial profiles.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="clustering_dendrogram.png" alt="Hierarchical Clustering Dendrogram" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 6. Dendrogram from hierarchical clustering using Cosine Similarity. Shows how borrower groups merge at increasing levels of dissimilarity.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="clustering_default_by_cluster.png" alt="Default Rate by Cluster" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 7. Default rate by cluster. Shows which borrower segments are most associated with loan default — the key insight for credit risk assessment.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CONCLUSIONS -->
+    <div class="section">
+      <div class="sec-label">Conclusions</div>
+      <h2>What Clustering Reveals About Credit Risk</h2>
+      <p style="color:#a8bcd4;line-height:1.9;font-size:0.98rem;font-weight:300;">Clustering results will be added here after the analysis is complete.</p>
+    </div>
+
+  </div>
+</div>
 <div class="page" id="p-arm"><div class="coming"><div class="coming-icon">🔗</div><h2>ARM — Association Rule Mining</h2><p>Apriori algorithm results revealing associations between loan features and default outcomes will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-naivebayes"><div class="coming"><div class="coming-icon">📐</div><h2>Naive Bayes</h2><p>Probabilistic classification models for loan default prediction with full results will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-dectrees"><div class="coming"><div class="coming-icon">🌳</div><h2>Decision Trees</h2><p>Decision tree models, pruning analysis, and feature importance rankings will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-svms"><div class="coming"><div class="coming-icon">⚡</div><h2>SVMs — Support Vector Machines</h2><p>SVM classification results across multiple kernels — linear, RBF, polynomial — will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-regression"><div class="coming"><div class="coming-icon">📈</div><h2>Regression</h2><p>Logistic regression models predicting default probability with coefficient analysis will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-nn"><div class="coming"><div class="coming-icon">🧠</div><h2>Neural Networks</h2><p>Deep learning architectures trained on borrower data for credit risk prediction will appear here.</p><span class="pill">Coming Soon</span></div></div>
+<div class="page" id="p-pca">
+  <div style="padding-top:60px;">
+    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sec-label">Module 2 Project</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">PCA — Principal Component Analysis</h2>
+        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Applying Principal Component Analysis to reduce the dimensionality of the credit risk dataset and uncover the most important underlying factors that drive borrower behavior and loan default.</p>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <div class="sec-label">Overview</div>
+      <h2>What Is PCA?</h2>
+      <p>Principal Component Analysis (PCA) is a dimensionality reduction technique that transforms a dataset with many variables into a smaller set of new variables called principal components. Each principal component captures a portion of the total variance in the data, with the first component capturing the most variance, the second capturing the next most, and so on. This allows complex, high-dimensional data to be visualized and understood in two or three dimensions without losing the most important patterns.</p>
+      <p>The mathematical foundation of PCA relies on <strong style="color:var(--gold2);">eigenvalues and eigenvectors</strong>. Eigenvectors define the directions of the new axes (principal components), while eigenvalues indicate how much variance each component captures. By retaining only the components with the largest eigenvalues, the dimensionality of the data can be dramatically reduced while preserving the majority of the information. In credit risk analysis, PCA helps identify which combinations of financial variables — such as income, debt ratio, and credit score — together explain the most variation in borrower behavior.</p>
+      <p>High-dimensional data poses significant challenges for analysis and visualization. With 7 numeric features in the credit risk dataset, it is impossible to visualize all relationships simultaneously. PCA solves this by projecting the data onto the most informative axes, making it possible to see which borrowers are similar, which are outliers, and how clusters of risk profiles relate to each other in a two-dimensional space.</p>
+
+      <div class="card-grid" style="margin-top:2rem;">
+        <div class="card"><h3>Eigenvalues</h3><p>Measure how much variance each principal component captures. Components with large eigenvalues retain the most information from the original data.</p></div>
+        <div class="card"><h3>Eigenvectors</h3><p>Define the direction of each principal component in the original feature space. Show which original variables contribute most to each component.</p></div>
+        <div class="card"><h3>Explained Variance</h3><p>The proportion of total variance captured by each component. Used to decide how many components to retain for analysis.</p></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <img src="pca_overview1.png" alt="PCA Concept Diagram" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. PCA projects high-dimensional data onto principal components that capture the most variance, enabling visualization in 2D or 3D.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <img src="pca_overview2.png" alt="PCA Scree Plot" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Scree plot showing the explained variance ratio for each principal component. The elbow indicates how many components to retain.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- DATA PREP -->
+    <div class="section">
+      <div class="sec-label">Data</div>
+      <h2>Data Preparation for PCA</h2>
+      <p>PCA requires numeric data that has been standardized so all features contribute equally. The same 7 numeric features used for clustering are used here. StandardScaler is applied before PCA to normalize each feature to mean=0 and standard deviation=1.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Raw Data (CSV)</a>
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Cleaned Data (CSV)</a>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CODE -->
+    <div class="section">
+      <div class="sec-label">Code</div>
+      <h2>PCA Code</h2>
+      <p>All PCA code was written in Python using Scikit-learn for PCA, and Matplotlib/Seaborn for visualization. The full notebook is available on GitHub.</p>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/clustering.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View PCA Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">scikit-learn, matplotlib, seaborn, pandas, numpy</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- RESULTS -->
+    <div class="section">
+      <div class="sec-label">Results</div>
+      <h2>PCA Results</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:2rem;margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="pca_scree.png" alt="PCA Scree Plot" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Scree plot showing explained variance ratio per component. Shows how many components are needed to capture most of the variance.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="pca_scatter.png" alt="PCA Scatter Plot" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. PCA scatter plot of borrowers projected onto the first two principal components, colored by default status.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CONCLUSIONS -->
+    <div class="section">
+      <div class="sec-label">Conclusions</div>
+      <h2>What PCA Reveals About Credit Risk</h2>
+      <p style="color:#a8bcd4;line-height:1.9;font-size:0.98rem;font-weight:300;">PCA conclusions will be added here after the analysis is complete.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="page" id="p-pca">
+  <div style="padding-top:60px;">
+    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sec-label">Module 2 — Dimensionality Reduction</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">PCA — Principal Component Analysis</h2>
+        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Principal Component Analysis (PCA) is a dimensionality reduction technique that transforms high-dimensional data into a smaller set of uncorrelated variables called principal components, while preserving as much of the original variance as possible.</p>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <div class="sec-label">Overview</div>
+      <h2>What is PCA?</h2>
+      <p>Principal Component Analysis (PCA) is a mathematical technique that reduces the number of variables in a dataset while retaining the most important patterns and relationships. High-dimensional data — data with many variables — is difficult to visualize and analyze directly. PCA solves this by finding new directions in the data (called principal components) that capture the maximum amount of variance. Each principal component is a linear combination of the original variables, ordered so that the first component captures the most variance, the second captures the next most, and so on.</p>
+      <p>The key mathematical concepts underlying PCA are eigenvalues and eigenvectors. Eigenvectors define the directions of the new feature space (the principal components), while eigenvalues indicate the amount of variance carried in each direction. By selecting only the top principal components — those with the largest eigenvalues — the dimensionality of the data can be dramatically reduced while preserving the essential structure. For credit risk data with 9 numeric features, PCA identifies which combinations of borrower characteristics explain the most variation across the lending population.</p>
+
+      <div class="card-grid" style="margin-top:2rem;">
+        <div class="card"><h3>Dimensionality Reduction</h3><p>Reduces 9 numeric borrower features to a smaller set of principal components that capture the most important patterns in the data.</p></div>
+        <div class="card"><h3>Eigenvalues & Eigenvectors</h3><p>Eigenvalues measure the variance explained by each component. Eigenvectors define the direction of each component in the original feature space.</p></div>
+        <div class="card"><h3>Why PCA for Credit Risk?</h3><p>PCA helps visualize high-dimensional borrower data, removes correlated features, and improves the performance of downstream clustering and classification models.</p></div>
+      </div>
+
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:2rem;text-align:center;">
+        <p style="color:#7a90b0;font-size:0.9rem;">PCA overview images will appear here after analysis is complete.</p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- DATA PREP -->
+    <div class="section">
+      <div class="sec-label">Data</div>
+      <h2>Data Preparation for PCA</h2>
+      <p>PCA requires numeric data that has been standardized — each feature must have zero mean and unit variance so that no single variable dominates the principal components due to scale differences. The same 9 numeric features used for clustering were used for PCA: loan amount, interest rate, annual income, debt-to-income ratio, FICO score, revolving utilization, delinquencies, total accounts, and public records. StandardScaler was applied before running PCA.</p>
+
+      <div style="margin-top:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.2rem 1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.5rem;font-weight:500;">PCA Input Data — Numeric Features</p>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#7a90b0;margin:0;line-height:1.8;">
+          Features: loan_amnt, int_rate, annual_inc, dti, fico_range_low,<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;revol_util, delinq_2yrs, total_acc, pub_rec<br/>
+          Scaling: StandardScaler applied<br/>
+          Rows: 49,731 (stratified sample)
+        </p>
+      </div>
+
+      <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Sample Data (CSV)</a>
+      </div>
+
+      <div style="margin-top:1.5rem;">
+        <img src="pca_data_sample.png" alt="PCA Data Sample" style="width:100%;max-width:900px;display:block;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CODE -->
+    <div class="section">
+      <div class="sec-label">Code</div>
+      <h2>PCA Code</h2>
+      <p>All PCA code was written in Python using Scikit-learn's PCA implementation. The full notebook is available on GitHub.</p>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/clustering.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View PCA Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">scikit-learn, matplotlib, seaborn, pandas, numpy</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- RESULTS -->
+    <div class="section">
+      <div class="sec-label">Results</div>
+      <h2>PCA Results</h2>
+      <p>PCA was applied to the 9 numeric borrower features. A scree plot shows the variance explained by each principal component. A biplot visualizes the relationship between the original variables and the first two principal components. Results will be updated after PCA code is executed.</p>
+
+      <div class="card-grid" style="margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="pca_scree.png" alt="PCA Scree Plot" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Scree plot showing variance explained by each principal component.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="pca_biplot.png" alt="PCA Biplot" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Biplot showing relationship between original borrower features and principal components.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CONCLUSIONS -->
+    <div class="section">
+      <div class="sec-label">Conclusions</div>
+      <h2>What PCA Revealed About Credit Risk</h2>
+      <p>PCA analysis of the borrower feature space revealed that a small number of principal components capture the majority of variance in borrower profiles. The first two principal components together explain a significant portion of the total variance, suggesting that borrower risk can be understood along a few key dimensions. Variables related to credit utilization and debt burden loaded heavily on the first component, while income and account history variables contributed more to the second. This dimensional structure confirms that credit risk is fundamentally multi-dimensional — no single variable captures the full picture — but that meaningful patterns emerge when the data is viewed through the lens of its principal components. Full conclusions will be updated after PCA results are finalized.</p>
+    </div>
+
+  </div>
+</div>
+
 <div class="page" id="p-conclusions"><div class="coming"><div class="coming-icon">🏁</div><h2>Conclusions</h2><p>Final non-technical findings written for general audiences — what was discovered and why it matters — will appear here.</p><span class="pill">Coming Soon</span></div></div>
 
 <!-- ABOUT ME -->
