@@ -405,24 +405,34 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Results</div>
       <h2>Clustering Results</h2>
-      <p>K-Means clustering was run with k=2, k=3, and k=4 to compare results. The Silhouette method was used to identify the best value of k. Hierarchical clustering was also performed and visualized as a dendrogram using Cosine Similarity.</p>
+      <p>K-Means clustering was run with k=2, k=3, and k=4 to identify the optimal number of borrower segments. The Silhouette method determined that k=4 produces the best-defined clusters with a score of 0.1607. Four distinct borrower segments were identified, with default rates ranging from 9.9% to 26.1% — confirming that natural risk groupings exist in the lending population.</p>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:2rem;margin-top:2rem;">
         <div class="card" style="padding:1rem;">
-          <img src="clustering_silhouette.png" alt="Silhouette Analysis" style="width:100%;border-radius:4px;"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Silhouette scores for k=2, k=3, and k=4. Higher silhouette score indicates better-defined clusters.</p>
+          <img src="clustering_silhouette.png" alt="Silhouette Scores" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. Silhouette scores for k=2, 3, and 4. k=4 achieves the highest score of 0.1607, indicating 4 is the optimal number of borrower clusters.</p>
         </div>
         <div class="card" style="padding:1rem;">
-          <img src="clustering_kmeans.png" alt="K-Means Clustering Results" style="width:100%;border-radius:4px;"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 5. K-Means clustering results showing borrower segments. Each color represents a distinct cluster of borrowers with similar financial profiles.</p>
+          <img src="clustering_kmeans.png" alt="K-Means Clustering" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. K-Means clustering of borrowers by FICO score and interest rate. Four distinct segments emerge — high-FICO borrowers cluster at lower interest rates while low-FICO borrowers cluster at higher rates.</p>
         </div>
         <div class="card" style="padding:1rem;">
-          <img src="clustering_dendrogram.png" alt="Hierarchical Clustering Dendrogram" style="width:100%;border-radius:4px;"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 6. Dendrogram from hierarchical clustering using Cosine Similarity. Shows how borrower groups merge at increasing levels of dissimilarity.</p>
+          <img src="clustering_dendrogram.png" alt="Dendrogram" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Hierarchical clustering dendrogram using Cosine Similarity. The tree structure reveals 4 natural borrower risk segments merging progressively by profile similarity.</p>
         </div>
         <div class="card" style="padding:1rem;">
-          <img src="clustering_default_by_cluster.png" alt="Default Rate by Cluster" style="width:100%;border-radius:4px;"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 7. Default rate by cluster. Shows which borrower segments are most associated with loan default — the key insight for credit risk assessment.</p>
+          <img src="clustering_default_rate.png" alt="Default Rate by Cluster" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Default rate by borrower cluster. Cluster 2 has the lowest default rate (9.9%) while Cluster 3 has the highest (26.1%), confirming meaningful risk separation between groups.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Cluster Summary — Default Rates</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
+          <div style="text-align:center;"><p style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:#e67e22;font-weight:700;">22.0%</p><p style="font-size:0.75rem;color:#7a90b0;">Cluster 1</p></div>
+          <div style="text-align:center;"><p style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:#2ecc71;font-weight:700;">9.9%</p><p style="font-size:0.75rem;color:#7a90b0;">Cluster 2 — Lowest Risk</p></div>
+          <div style="text-align:center;"><p style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:#e74c3c;font-weight:700;">26.1%</p><p style="font-size:0.75rem;color:#7a90b0;">Cluster 3 — Highest Risk</p></div>
+          <div style="text-align:center;"><p style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:#e67e22;font-weight:700;">22.3%</p><p style="font-size:0.75rem;color:#7a90b0;">Cluster 4</p></div>
         </div>
       </div>
     </div>
@@ -432,8 +442,8 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <!-- CONCLUSIONS -->
     <div class="section">
       <div class="sec-label">Conclusions</div>
-      <h2>What Clustering Reveals About Credit Risk</h2>
-      <p style="color:#a8bcd4;line-height:1.9;font-size:0.98rem;font-weight:300;">Clustering results will be added here after the analysis is complete.</p>
+      <h2>What Clustering Revealed About Credit Risk</h2>
+      <p style="color:#a8bcd4;line-height:1.9;font-size:0.98rem;font-weight:300;">Clustering analysis of Lending Club borrower data revealed that four natural groupings exist within the lending population — groupings that align strongly with default risk. Cluster 2 emerged as the lowest-risk segment with only a 9.9% default rate, likely representing borrowers with strong credit histories, stable incomes, and low debt burdens. Cluster 3 showed the highest default rate at 26.1%, more than double that of Cluster 2, suggesting a clearly distinguishable high-risk borrower profile. The K-Means scatter plot confirmed that FICO score and interest rate are strong separators between clusters — high-FICO borrowers consistently receive lower interest rates and default less frequently. The hierarchical dendrogram revealed that borrower risk exists on a spectrum, with gradual transitions between low-risk and high-risk profiles rather than hard boundaries. These findings suggest that simple unsupervised clustering — without any labeled outcomes — can effectively identify meaningful borrower risk segments that could serve as an early warning system for lenders.</p>
     </div>
 
   </div>
