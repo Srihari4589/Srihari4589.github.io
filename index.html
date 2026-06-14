@@ -86,7 +86,6 @@ hr.div{border:none;border-top:1px solid var(--border);}
       <li><a href="#" onclick="show('regression');return false;" id="t-regression">Regression</a></li>
       <li><a href="#" onclick="show('nn');return false;" id="t-nn">NN</a></li>
       <li><a href="#" onclick="show('pca');return false;" id="t-pca">PCA</a></li>
-      <li><a href="#" onclick="show('pca');return false;" id="t-pca">PCA</a></li>
       <li><a href="#" onclick="show('conclusions');return false;" id="t-conclusions">Conclusions</a></li>
       <li><a href="#" onclick="show('about');return false;" id="t-about">About Me</a></li>
     </ul>
@@ -244,7 +243,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
           <h3>📡 FRED API — Federal Reserve</h3>
           <p>Macroeconomic time series data pulled directly via the FRED API (Federal Reserve Bank of St. Louis). Includes monthly unemployment rate, credit card delinquency rate, consumer debt levels, and federal funds interest rate from 2010 to present.</p>
           <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:0.5rem;">
-            <a href="https://fred.stlouisfed.org" target="_blank" style="font-size:0.8rem;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:0.4rem 0.8rem;display:inline-block;">FRED API Source</a>
+            <a href="https://fred.stlouisfed.org/docs/api/fred/" target="_blank" style="font-size:0.8rem;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:0.4rem 0.8rem;display:inline-block;">FRED API Source</a>
             <a href="https://srihari4589.github.io/fred_cleaned.csv" target="_blank" style="font-size:0.8rem;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:0.4rem 0.8rem;display:inline-block;">Cleaned FRED Data (CSV)</a>
           </div>
         </div>
@@ -458,98 +457,6 @@ hr.div{border:none;border-top:1px solid var(--border);}
   <div style="padding-top:60px;">
     <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
       <div style="max-width:1100px;margin:0 auto;">
-        <div class="sec-label">Module 2 Project</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">PCA — Principal Component Analysis</h2>
-        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Applying Principal Component Analysis to reduce the dimensionality of the credit risk dataset and uncover the most important underlying factors that drive borrower behavior and loan default.</p>
-      </div>
-    </div>
-
-    <!-- OVERVIEW -->
-    <div class="section">
-      <div class="sec-label">Overview</div>
-      <h2>What Is PCA?</h2>
-      <p>Principal Component Analysis (PCA) is a dimensionality reduction technique that transforms a dataset with many variables into a smaller set of new variables called principal components. Each principal component captures a portion of the total variance in the data, with the first component capturing the most variance, the second capturing the next most, and so on. This allows complex, high-dimensional data to be visualized and understood in two or three dimensions without losing the most important patterns.</p>
-      <p>The mathematical foundation of PCA relies on <strong style="color:var(--gold2);">eigenvalues and eigenvectors</strong>. Eigenvectors define the directions of the new axes (principal components), while eigenvalues indicate how much variance each component captures. By retaining only the components with the largest eigenvalues, the dimensionality of the data can be dramatically reduced while preserving the majority of the information. In credit risk analysis, PCA helps identify which combinations of financial variables — such as income, debt ratio, and credit score — together explain the most variation in borrower behavior.</p>
-      <p>High-dimensional data poses significant challenges for analysis and visualization. With 7 numeric features in the credit risk dataset, it is impossible to visualize all relationships simultaneously. PCA solves this by projecting the data onto the most informative axes, making it possible to see which borrowers are similar, which are outliers, and how clusters of risk profiles relate to each other in a two-dimensional space.</p>
-
-      <div class="card-grid" style="margin-top:2rem;">
-        <div class="card"><h3>Eigenvalues</h3><p>Measure how much variance each principal component captures. Components with large eigenvalues retain the most information from the original data.</p></div>
-        <div class="card"><h3>Eigenvectors</h3><p>Define the direction of each principal component in the original feature space. Show which original variables contribute most to each component.</p></div>
-        <div class="card"><h3>Explained Variance</h3><p>The proportion of total variance captured by each component. Used to decide how many components to retain for analysis.</p></div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
-        <div class="card" style="padding:1.2rem;">
-          <img src="pca_overview1.png" alt="PCA Concept Diagram" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. PCA projects high-dimensional data onto principal components that capture the most variance, enabling visualization in 2D or 3D.</p>
-        </div>
-        <div class="card" style="padding:1.2rem;">
-          <img src="pca_overview2.png" alt="PCA Scree Plot" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Scree plot showing the explained variance ratio for each principal component. The elbow indicates how many components to retain.</p>
-        </div>
-      </div>
-    </div>
-
-    <hr class="div"/>
-
-    <!-- DATA PREP -->
-    <div class="section">
-      <div class="sec-label">Data</div>
-      <h2>Data Preparation for PCA</h2>
-      <p>PCA requires numeric data that has been standardized so all features contribute equally. The same 7 numeric features used for clustering are used here. StandardScaler is applied before PCA to normalize each feature to mean=0 and standard deviation=1.</p>
-      <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
-        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Raw Data (CSV)</a>
-        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Cleaned Data (CSV)</a>
-      </div>
-    </div>
-
-    <hr class="div"/>
-
-    <!-- CODE -->
-    <div class="section">
-      <div class="sec-label">Code</div>
-      <h2>PCA Code</h2>
-      <p>All PCA code was written in Python using Scikit-learn for PCA, and Matplotlib/Seaborn for visualization. The full notebook is available on GitHub.</p>
-      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/clustering.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View PCA Code on GitHub</a></div>
-      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
-        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">scikit-learn, matplotlib, seaborn, pandas, numpy</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
-      </div>
-    </div>
-
-    <hr class="div"/>
-
-    <!-- RESULTS -->
-    <div class="section">
-      <div class="sec-label">Results</div>
-      <h2>PCA Results</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:2rem;margin-top:2rem;">
-        <div class="card" style="padding:1rem;">
-          <img src="pca_scree.png" alt="PCA Scree Plot" style="width:100%;border-radius:4px;"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Scree plot showing explained variance ratio per component. Shows how many components are needed to capture most of the variance.</p>
-        </div>
-        <div class="card" style="padding:1rem;">
-          <img src="pca_scatter.png" alt="PCA Scatter Plot" style="width:100%;border-radius:4px;"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. PCA scatter plot of borrowers projected onto the first two principal components, colored by default status.</p>
-        </div>
-      </div>
-    </div>
-
-    <hr class="div"/>
-
-    <!-- CONCLUSIONS -->
-    <div class="section">
-      <div class="sec-label">Conclusions</div>
-      <h2>What PCA Reveals About Credit Risk</h2>
-      <p style="color:#a8bcd4;line-height:1.9;font-size:0.98rem;font-weight:300;">PCA conclusions will be added here after the analysis is complete.</p>
-    </div>
-
-  </div>
-</div>
-
-<div class="page" id="p-pca">
-  <div style="padding-top:60px;">
-    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
-      <div style="max-width:1100px;margin:0 auto;">
         <div class="sec-label">Module 2 — Dimensionality Reduction</div>
         <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">PCA — Principal Component Analysis</h2>
         <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Principal Component Analysis (PCA) is a dimensionality reduction technique that transforms high-dimensional data into a smaller set of uncorrelated variables called principal components, while preserving as much of the original variance as possible.</p>
@@ -620,16 +527,27 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Results</div>
       <h2>PCA Results</h2>
-      <p>PCA was applied to the 9 numeric borrower features. A scree plot shows the variance explained by each principal component. A biplot visualizes the relationship between the original variables and the first two principal components. Results will be updated after PCA code is executed.</p>
+      <p>PCA was applied to 9 numeric borrower features. PC1 explains 21.2% of variance and PC2 explains 18.4%, with the first two components together capturing 39.7% of total variance. Five components are needed to reach 70% cumulative variance, confirming that credit risk data is genuinely multi-dimensional with no single dominant factor.</p>
 
-      <div class="card-grid" style="margin-top:2rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
         <div class="card" style="padding:1rem;">
-          <img src="pca_scree.png" alt="PCA Scree Plot" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Scree plot showing variance explained by each principal component.</p>
+          <img src="pca_scree.png" alt="PCA Scree Plot" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. Scree plot showing variance explained by each principal component. PC1 (21.2%) and PC2 (18.4%) together capture 39.7% of total variance. Five components are needed to exceed the 70% threshold.</p>
         </div>
         <div class="card" style="padding:1rem;">
-          <img src="pca_biplot.png" alt="PCA Biplot" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Biplot showing relationship between original borrower features and principal components.</p>
+          <img src="pca_biplot.png" alt="PCA Biplot" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Biplot showing borrower clusters projected onto PC1-PC2 space with feature loading vectors. FICO score loads strongly on PC1 while loan amount and income load on PC2.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Variance Explained Summary</p>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;">
+          <div style="text-align:center;"><div style="font-size:1.1rem;font-weight:700;color:#c8a84b;">21.2%</div><div style="font-size:0.72rem;color:#7a90b0;">PC1</div></div>
+          <div style="text-align:center;"><div style="font-size:1.1rem;font-weight:700;color:#c8a84b;">18.4%</div><div style="font-size:0.72rem;color:#7a90b0;">PC2</div></div>
+          <div style="text-align:center;"><div style="font-size:1.1rem;font-weight:700;color:#c8a84b;">12.6%</div><div style="font-size:0.72rem;color:#7a90b0;">PC3</div></div>
+          <div style="text-align:center;"><div style="font-size:1.1rem;font-weight:700;color:#c8a84b;">12.5%</div><div style="font-size:0.72rem;color:#7a90b0;">PC4</div></div>
+          <div style="text-align:center;"><div style="font-size:1.1rem;font-weight:700;color:#c8a84b;">39.7%</div><div style="font-size:0.72rem;color:#7a90b0;">PC1+PC2 Total</div></div>
         </div>
       </div>
     </div>
@@ -640,7 +558,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What PCA Revealed About Credit Risk</h2>
-      <p>PCA analysis of the borrower feature space revealed that a small number of principal components capture the majority of variance in borrower profiles. The first two principal components together explain a significant portion of the total variance, suggesting that borrower risk can be understood along a few key dimensions. Variables related to credit utilization and debt burden loaded heavily on the first component, while income and account history variables contributed more to the second. This dimensional structure confirms that credit risk is fundamentally multi-dimensional — no single variable captures the full picture — but that meaningful patterns emerge when the data is viewed through the lens of its principal components. Full conclusions will be updated after PCA results are finalized.</p>
+      <p style="color:#a8bcd4;line-height:1.9;font-size:0.98rem;font-weight:300;">PCA analysis of the 9 borrower features confirmed that credit risk data is genuinely multi-dimensional — no single variable dominates the variance, and five principal components are needed to explain 70% of the total information. PC1 (21.2% variance) appears most associated with credit quality indicators like FICO score and interest rate, while PC2 (18.4% variance) reflects borrower capacity variables like income and loan amount. The biplot confirmed that FICO score and interest rate point in opposite directions along PC1 — borrowers with high credit scores tend to receive lower interest rates. The four borrower clusters from K-Means analysis are visible but overlapping in the PC1-PC2 space, consistent with the moderate silhouette scores observed. This overlap confirms that credit risk is not cleanly separable along any two dimensions, reinforcing the value of using multiple machine learning methods to capture different aspects of the risk landscape.</p>
     </div>
 
   </div>
