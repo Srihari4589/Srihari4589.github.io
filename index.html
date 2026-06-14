@@ -476,8 +476,15 @@ hr.div{border:none;border-top:1px solid var(--border);}
         <div class="card"><h3>Why PCA for Credit Risk?</h3><p>PCA helps visualize high-dimensional borrower data, removes correlated features, and improves the performance of downstream clustering and classification models.</p></div>
       </div>
 
-      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:2rem;text-align:center;">
-        <p style="color:#7a90b0;font-size:0.9rem;">PCA overview images will appear here after analysis is complete.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <img src="pca_overview1.png" alt="PCA Dimensionality Reduction Concept" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. PCA finds the directions of maximum variance (PC1, PC2) and projects data onto fewer dimensions while retaining the most important information.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <img src="pca_overview2.png" alt="PCA Explained Variance" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. The elbow in the scree plot suggests how many components to retain. Five components are needed to exceed the 70% cumulative variance threshold.</p>
+        </div>
       </div>
     </div>
 
