@@ -551,7 +551,11 @@ hr.div{border:none;border-top:1px solid var(--border);}
       </div>
       <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
         <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.5rem;font-weight:500;">Model Performance</p>
-        <p style="font-size:0.88rem;color:#7a90b0;margin:0;">Results will be updated after the Naïve Bayes code is executed in Google Colab.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e2c97e;">79.24%</div><div style="font-size:0.75rem;color:#7a90b0;">Overall Accuracy</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#2ecc71;">205,744</div><div style="font-size:0.75rem;color:#7a90b0;">True Negatives (Paid correctly)</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e74c3c;">46,404</div><div style="font-size:0.75rem;color:#7a90b0;">False Negatives (Defaults missed)</div></div>
+        </div>
       </div>
     </div>
 
@@ -561,7 +565,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What Naïve Bayes Revealed About Credit Risk</h2>
-      <p>Conclusions will be updated after results are finalized.</p>
+      <p>Gaussian Naïve Bayes achieved an overall accuracy of 79.24% on the Lending Club test set — a reasonable baseline for a probabilistic model with minimal tuning. The confusion matrix revealed that the model correctly identified 205,744 fully paid loans but struggled significantly with default detection, missing 46,404 actual defaults and correctly identifying only 7,258. This pattern — high accuracy on the majority class but poor recall on the minority class — is characteristic of Naïve Bayes applied to imbalanced datasets where defaults represent only about 20% of cases. The conditional independence assumption inherent to Naïve Bayes is likely too strong for credit risk data, where features like interest rate, FICO score, and debt-to-income ratio are highly correlated with each other. Despite these limitations, the model confirms that borrower financial features carry meaningful signal for default prediction — even a simple probabilistic model can substantially outperform random chance. For credit risk applications where the cost of missing a default is high, more sophisticated models with better recall on the minority class will be needed in later modules.</p>
     </div>
   </div>
 </div>
@@ -677,7 +681,15 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What Decision Trees Revealed About Credit Risk</h2>
-      <p>Conclusions will be updated after results are finalized.</p>
+      <div style="margin-bottom:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Accuracy by Tree Depth</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#3498db;">80.04%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=3</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#2ecc71;">80.04%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=5</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e74c3c;">80.02%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=10</div></div>
+        </div>
+      </div>
+      <p>Decision Tree classification achieved approximately 80% accuracy across all three depth settings — slightly outperforming Naïve Bayes at 79.24%. The most striking finding is that all three trees achieved nearly identical accuracy regardless of depth, suggesting that the most important decision boundaries are captured at very shallow levels. The feature importance chart confirms this — interest rate alone accounts for approximately 78% of the predictive signal, dwarfing all other features combined. This directly addresses Research Question Q07: interest rates assigned to loans do appear to reflect underlying default risk. However, the confusion matrix revealed the same weakness as Naïve Bayes — the tree predicts almost all borrowers as fully paid, exploiting class imbalance rather than genuinely identifying defaults. The depth=3 tree is recommended as the best model since it achieves the same accuracy as deeper trees while remaining fully interpretable. Future modules will address class imbalance using oversampling, cost-sensitive learning, and ensemble methods.</p>
     </div>
   </div>
 </div>
