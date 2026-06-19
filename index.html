@@ -373,10 +373,16 @@ hr.div{border:none;border-top:1px solid var(--border);}
         <div class="card"><h3>Preprocessing</h3><p>Target variable removed. Non-numeric columns dropped. Missing values filled. StandardScaler applied to normalize all features to mean=0, std=1.</p></div>
         <div class="card"><h3>Sample Size</h3><p>49,731 rows from the stratified Lending Club sample. Full dataset kept to ensure clustering captures the true distribution of borrower profiles.</p></div>
       </div>
-      <div style="margin-top:1.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
         <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Before Scaling — Raw Data</h3>
+          <img src="clustering_raw_data.png" alt="Raw Clustering Data" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Raw numeric features before standardization. Features have very different scales — annual income in thousands vs delinquencies near zero — making scaling essential.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">After Scaling — Standardized Data</h3>
           <img src="clustering_data_sample.png" alt="Clustering Data Sample" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Sample of the normalized numeric data used for clustering. All features scaled to mean=0, std=1 before applying K-Means and hierarchical clustering.</p>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Same data after StandardScaler — all features normalized to mean=0, std=1. Now all features contribute equally to distance calculations in clustering.</p>
         </div>
       </div>
       <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
@@ -440,9 +446,17 @@ hr.div{border:none;border-top:1px solid var(--border);}
 
     <!-- CONCLUSIONS -->
     <div class="section">
+      <div class="sec-label">K-Means vs Hierarchical Comparison</div>
+      <h2>Do Both Methods Agree?</h2>
+      <p>Both K-Means and hierarchical clustering point toward the same conclusion: four natural borrower segments exist in the Lending Club data. K-Means with k=4 achieved the highest silhouette score of 0.1607, cleanly separating borrowers into groups with default rates ranging from 9.9% to 26.1%. The hierarchical dendrogram using Cosine Similarity independently confirmed this structure — the tree splits most naturally into four main branches, matching the k=4 result from K-Means. Both methods agree that the primary axis of separation is credit quality: FICO score and interest rate together define the main distinction between high-risk and low-risk borrower segments. The hierarchical approach adds nuance by showing that risk transitions are gradual rather than abrupt — borrowers merge progressively as similarity decreases, suggesting that risk exists on a spectrum rather than in discrete categories. This agreement between partitional and hierarchical methods strengthens confidence that four segments is the most meaningful grouping for this credit risk dataset.</p>
+    </div>
+
+    <hr class="div"/>
+
+    <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What Clustering Revealed About Credit Risk</h2>
-      <p style="color:#a8bcd4;line-height:1.9;font-size:0.98rem;font-weight:300;">Clustering analysis of Lending Club borrower data revealed that four natural groupings exist within the lending population — groupings that align strongly with default risk. Cluster 2 emerged as the lowest-risk segment with only a 9.9% default rate, likely representing borrowers with strong credit histories, stable incomes, and low debt burdens. Cluster 3 showed the highest default rate at 26.1%, more than double that of Cluster 2, suggesting a clearly distinguishable high-risk borrower profile. The K-Means scatter plot confirmed that FICO score and interest rate are strong separators between clusters — high-FICO borrowers consistently receive lower interest rates and default less frequently. The hierarchical dendrogram revealed that borrower risk exists on a spectrum, with gradual transitions between low-risk and high-risk profiles rather than hard boundaries. These findings suggest that simple unsupervised clustering — without any labeled outcomes — can effectively identify meaningful borrower risk segments that could serve as an early warning system for lenders.</p>
+      <p style="color:#a8bcd4;line-height:1.9;font-size:0.98rem;font-weight:300;">Clustering analysis of Lending Club borrower data revealed that four natural groupings exist within the lending population — groupings that align strongly with default risk. Cluster 2 emerged as the lowest-risk segment with only a 9.9% default rate, likely representing borrowers with strong credit histories, stable incomes, and low debt burdens. Cluster 3 showed the highest default rate at 26.1%, more than double that of Cluster 2, suggesting a clearly distinguishable high-risk borrower profile. The K-Means scatter plot confirmed that FICO score and interest rate are strong separators between clusters — high-FICO borrowers consistently receive lower interest rates and default less frequently. The hierarchical dendrogram revealed that borrower risk exists on a spectrum, with gradual transitions between low-risk and high-risk profiles rather than hard boundaries. Both methods independently confirmed four as the optimal number of segments, strengthening confidence in the finding. These results demonstrate that simple unsupervised clustering — without any labeled outcomes — can effectively identify meaningful borrower risk segments that could serve as an early warning system for lenders.</p>
     </div>
 
   </div>
@@ -510,10 +524,16 @@ hr.div{border:none;border-top:1px solid var(--border);}
         <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Sample Data (CSV)</a>
       </div>
 
-      <div style="margin-top:1.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
         <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Before Scaling — Raw Data</h3>
+          <img src="clustering_raw_data.png" alt="Raw PCA Data" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Raw numeric features before standardization. Without scaling, high-magnitude features like annual income would dominate the principal components unfairly.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">After Scaling — Standardized Data</h3>
           <img src="pca_data_sample.png" alt="PCA Data Sample" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Sample of the standardized numeric data used for PCA. All 9 features scaled to mean=0, std=1 using StandardScaler before applying PCA.</p>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Same data after StandardScaler — all 9 features at mean=0, std=1. PCA is then applied to this standardized matrix to find principal components.</p>
         </div>
       </div>
     </div>
