@@ -502,16 +502,24 @@ hr.div{border:none;border-top:1px solid var(--border);}
       <h2>Data Preparation for Naïve Bayes</h2>
       <p>Naïve Bayes is a supervised learning method — it requires labeled data where the outcome (default vs fully paid) is known for each record. The Lending Club dataset provides this label in the binary "default" column (1 = defaulted, 0 = fully paid). All features used must be numeric; categorical columns such as loan grade and employment length were encoded or excluded. The dataset was split into a Training Set (80%) used to build the model and a Testing Set (20%) used to evaluate accuracy. The two sets are strictly disjoint — no record appears in both — ensuring that the model is evaluated on data it has never seen before, which gives an honest measure of real-world predictive performance.</p>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+      <div style="margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Full Labeled Dataset (Before Split)</h3>
+          <img src="nb_data_sample.png" alt="Full Dataset Sample" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Full labeled dataset before splitting. Each row contains 9 numeric borrower features plus the binary default label (0 = Fully Paid, 1 = Defaulted) used as the target variable.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
         <div class="card" style="padding:1.2rem;">
           <h3 style="margin-bottom:0.8rem;">Training Set (80%)</h3>
-          <img src="nb_train_sample.png" alt="NB Training Set" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Training set used to fit the Naïve Bayes model. Contains 80% of the labeled data with the default column included as the target variable.</p>
+          <img src="nb_train_sample.png" alt="NB Training Set" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Training set used to fit the Naïve Bayes model. Contains 80% of the labeled data (1,075,264 rows) with the default column as the target variable.</p>
         </div>
         <div class="card" style="padding:1.2rem;">
           <h3 style="margin-bottom:0.8rem;">Testing Set (20%)</h3>
-          <img src="nb_test_sample.png" alt="NB Testing Set" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Testing set used to evaluate model accuracy. Completely disjoint from training data — no overlap ensures honest evaluation of real-world predictive performance.</p>
+          <img src="nb_test_sample.png" alt="NB Testing Set" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Testing set used to evaluate model accuracy (268,816 rows). Completely disjoint from training data — no overlap ensures honest evaluation of real-world predictive performance.</p>
         </div>
       </div>
 
@@ -551,11 +559,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
       </div>
       <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
         <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.5rem;font-weight:500;">Model Performance</p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
-          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e2c97e;">79.24%</div><div style="font-size:0.75rem;color:#7a90b0;">Overall Accuracy</div></div>
-          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#2ecc71;">205,744</div><div style="font-size:0.75rem;color:#7a90b0;">True Negatives (Paid correctly)</div></div>
-          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e74c3c;">46,404</div><div style="font-size:0.75rem;color:#7a90b0;">False Negatives (Defaults missed)</div></div>
-        </div>
+        <p style="font-size:0.88rem;color:#7a90b0;margin:0;">Results will be updated after the Naïve Bayes code is executed in Google Colab.</p>
       </div>
     </div>
 
@@ -565,7 +569,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What Naïve Bayes Revealed About Credit Risk</h2>
-      <p>Gaussian Naïve Bayes achieved an overall accuracy of 79.24% on the Lending Club test set — a reasonable baseline for a probabilistic model with minimal tuning. The confusion matrix revealed that the model correctly identified 205,744 fully paid loans but struggled significantly with default detection, missing 46,404 actual defaults and correctly identifying only 7,258. This pattern — high accuracy on the majority class but poor recall on the minority class — is characteristic of Naïve Bayes applied to imbalanced datasets where defaults represent only about 20% of cases. The conditional independence assumption inherent to Naïve Bayes is likely too strong for credit risk data, where features like interest rate, FICO score, and debt-to-income ratio are highly correlated with each other. Despite these limitations, the model confirms that borrower financial features carry meaningful signal for default prediction — even a simple probabilistic model can substantially outperform random chance. For credit risk applications where the cost of missing a default is high, more sophisticated models with better recall on the minority class will be needed in later modules.</p>
+      <p>Conclusions will be updated after results are finalized.</p>
     </div>
   </div>
 </div>
@@ -592,6 +596,20 @@ hr.div{border:none;border-top:1px solid var(--border);}
         <div class="card"><h3>Why Infinite Trees?</h3><p>Any feature, any threshold, any depth can be chosen at each node. The combination of these choices creates an unlimited search space — pruning and max_depth constraints are used to control complexity.</p></div>
       </div>
 
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Worked Example — Gini Impurity &amp; Information Gain</p>
+        <p style="font-size:0.88rem;color:#a8bcd4;line-height:1.9;margin-bottom:0.8rem;">Consider a node with 100 borrowers: 80 Fully Paid, 20 Defaulted.</p>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#7a90b0;line-height:2;margin-bottom:0.8rem;">
+          Parent Gini = 1 - (0.80² + 0.20²) = 1 - (0.64 + 0.04) = 0.32<br/><br/>
+          Split on int_rate ≤ 13%:<br/>
+          &nbsp;&nbsp;Left child: 60 Paid, 5 Default → Gini = 1 - (0.923² + 0.077²) = 0.142<br/>
+          &nbsp;&nbsp;Right child: 20 Paid, 15 Default → Gini = 1 - (0.571² + 0.429²) = 0.490<br/><br/>
+          Weighted Gini = (65/100) × 0.142 + (35/100) × 0.490 = 0.092 + 0.172 = 0.264<br/><br/>
+          Information Gain = 0.32 - 0.264 = 0.056
+        </p>
+        <p style="font-size:0.88rem;color:#a8bcd4;line-height:1.9;margin:0;">The split on interest rate ≤ 13% reduces Gini impurity by 0.056. The algorithm compares this against all other possible splits and selects the one with the highest Information Gain.</p>
+      </div>
+
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
         <div class="card" style="padding:1.2rem;">
           <img src="dt_overview1.png" alt="Decision Tree Structure" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
@@ -612,16 +630,24 @@ hr.div{border:none;border-top:1px solid var(--border);}
       <h2>Data Preparation for Decision Trees</h2>
       <p>Decision Trees require labeled data with the target variable included. The same 80/20 train/test split used for Naïve Bayes is applied here. All features are numeric and the binary default column (1 = defaulted, 0 = fully paid) serves as the target. Three different trees are built using different max_depth values to compare performance and complexity.</p>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+      <div style="margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Full Labeled Dataset (Before Split)</h3>
+          <img src="nb_data_sample.png" alt="Full Dataset Sample" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Full labeled dataset before splitting. Each row contains 9 numeric borrower features plus the binary default label used as the target variable for Decision Tree classification.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
         <div class="card" style="padding:1.2rem;">
           <h3 style="margin-bottom:0.8rem;">Training Set (80%)</h3>
-          <img src="nb_train_sample.png" alt="DT Training Set" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Training set used to grow the decision tree. The model learns split rules from this data — 80% of the labeled Lending Club sample.</p>
+          <img src="nb_train_sample.png" alt="DT Training Set" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Training set used to grow the decision tree. The model learns split rules from this data — 80% of the labeled Lending Club sample (1,075,264 rows).</p>
         </div>
         <div class="card" style="padding:1.2rem;">
           <h3 style="margin-bottom:0.8rem;">Testing Set (20%)</h3>
-          <img src="nb_test_sample.png" alt="DT Testing Set" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
-          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Testing set used to evaluate tree accuracy. Disjoint from training data — no overlap ensures the tree is tested on unseen borrower profiles.</p>
+          <img src="nb_test_sample.png" alt="DT Testing Set" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Testing set used to evaluate tree accuracy (268,816 rows). Disjoint from training data — no overlap ensures the tree is tested on completely unseen borrower profiles.</p>
         </div>
       </div>
 
@@ -681,15 +707,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What Decision Trees Revealed About Credit Risk</h2>
-      <div style="margin-bottom:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
-        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Accuracy by Tree Depth</p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
-          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#3498db;">80.04%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=3</div></div>
-          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#2ecc71;">80.04%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=5</div></div>
-          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e74c3c;">80.02%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=10</div></div>
-        </div>
-      </div>
-      <p>Decision Tree classification achieved approximately 80% accuracy across all three depth settings — slightly outperforming Naïve Bayes at 79.24%. The most striking finding is that all three trees achieved nearly identical accuracy regardless of depth, suggesting that the most important decision boundaries are captured at very shallow levels. The feature importance chart confirms this — interest rate alone accounts for approximately 78% of the predictive signal, dwarfing all other features combined. This directly addresses Research Question Q07: interest rates assigned to loans do appear to reflect underlying default risk. However, the confusion matrix revealed the same weakness as Naïve Bayes — the tree predicts almost all borrowers as fully paid, exploiting class imbalance rather than genuinely identifying defaults. The depth=3 tree is recommended as the best model since it achieves the same accuracy as deeper trees while remaining fully interpretable. Future modules will address class imbalance using oversampling, cost-sensitive learning, and ensemble methods.</p>
+      <p>Conclusions will be updated after results are finalized.</p>
     </div>
   </div>
 </div>
