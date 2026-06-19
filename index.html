@@ -200,6 +200,14 @@ hr.div{border:none;border-top:1px solid var(--border);}
   <hr class="div"/>
 
   <div class="section">
+    <div class="sec-label">Historical Context</div>
+    <h2>A History of Credit Risk</h2>
+    <p>The history of lending itself offers a window into how deeply credit risk has shaped human civilization and economic development. Long before formal banking systems existed, merchants in ancient Mesopotamia extended credit to farmers and traders based on personal reputation and community standing — an informal but surprisingly effective system of risk assessment. The emergence of modern banking in Renaissance Italy introduced the first institutional approaches to credit, with Florentine families like the Medici developing sophisticated networks of trust and accountability across international trade routes. The Industrial Revolution dramatically expanded the scale of lending, as factories, railways, and infrastructure projects required capital that far exceeded what any single lender could provide — giving rise to the bond markets and credit institutions that still underpin the global economy today. The twentieth century brought credit to ordinary consumers for the first time at scale, with the introduction of installment loans, credit cards, and mortgage markets that transformed homeownership and consumer spending across the developed world. Each expansion of credit access has been accompanied by new forms of risk — the savings and loan crisis of the 1980s, the junk bond collapse, and the subprime mortgage disaster of 2008 all share a common thread of underestimated default risk at systemic scale. Regulatory responses to these crises have consistently tried to impose structure on an inherently uncertain process, requiring lenders to hold capital reserves, disclose lending practices, and treat borrowers fairly regardless of race, gender, or national origin. Yet regulation alone cannot solve the fundamental challenge of credit risk — predicting the future behavior of millions of individual borrowers operating in an unpredictable economic environment. The most promising path forward lies in combining the vast amounts of behavioral and economic data now available with analytical tools capable of identifying patterns invisible to human judgment. Communities that have historically been excluded from formal credit systems stand to benefit most from more accurate and fair risk assessment — when the right borrowers gain access to capital, entire neighborhoods and economies can be transformed. Understanding credit risk is therefore not merely a technical challenge but a deeply human one, with consequences that extend far beyond the balance sheets of banks and into the daily lives of families, workers, and communities around the world.</p>
+  </div>
+
+  <hr class="div"/>
+
+  <div class="section">
     <div class="sec-label">Research Agenda</div>
     <h2>10 Questions This Project Aims to Answer</h2>
     <div class="q-grid">
@@ -462,8 +470,217 @@ hr.div{border:none;border-top:1px solid var(--border);}
   </div>
 </div>
 <div class="page" id="p-arm"><div class="coming"><div class="coming-icon">🔗</div><h2>ARM — Association Rule Mining</h2><p>Apriori algorithm results revealing associations between loan features and default outcomes will appear here.</p><span class="pill">Coming Soon</span></div></div>
-<div class="page" id="p-naivebayes"><div class="coming"><div class="coming-icon">📐</div><h2>Naive Bayes</h2><p>Probabilistic classification models for loan default prediction with full results will appear here.</p><span class="pill">Coming Soon</span></div></div>
-<div class="page" id="p-dectrees"><div class="coming"><div class="coming-icon">🌳</div><h2>Decision Trees</h2><p>Decision tree models, pruning analysis, and feature importance rankings will appear here.</p><span class="pill">Coming Soon</span></div></div>
+<div class="page" id="p-naivebayes">
+  <div style="padding-top:60px;">
+    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sec-label">Module 3 Project</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">Naïve Bayes</h2>
+        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Applying Naïve Bayes classification to predict loan default using borrower financial profiles. A probabilistic approach that calculates the likelihood of default based on prior probabilities learned from training data.</p>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <div class="sec-label">Overview</div>
+      <h2>What is Naïve Bayes?</h2>
+      <p>Naïve Bayes is a probabilistic classification algorithm based on Bayes' Theorem — a mathematical formula that calculates the probability of an event occurring given prior knowledge of related conditions. The "naïve" in the name refers to the assumption that all features are conditionally independent of each other given the class label. While this assumption rarely holds perfectly in real-world data, it simplifies computation dramatically and often produces surprisingly accurate results in practice. In credit risk analysis, Naïve Bayes asks: given a borrower's financial profile — income, FICO score, debt-to-income ratio — what is the probability that this borrower will default on their loan?</p>
+      <p>Two important variants of Naïve Bayes are used in classification tasks. <strong style="color:var(--gold2);">Multinomial Naïve Bayes</strong> is designed for discrete count data and works well when features represent frequencies or counts — such as the number of delinquencies or public records in a borrower's history. It models the probability of each feature value appearing within each class, making it well-suited for text classification and discrete financial variables. <strong style="color:var(--gold2);">Bernoulli Naïve Bayes</strong>, on the other hand, is designed for binary feature data — where each feature is either present or absent. It is most appropriate when features can be expressed as yes/no indicators, such as whether a borrower has any public records, whether the loan purpose is debt consolidation, or whether the borrower has missed any payments. In credit risk modeling, both variants have applications depending on how the input features are encoded.</p>
+
+      <div class="card-grid" style="margin-top:2rem;">
+        <div class="card"><h3>Bayes' Theorem</h3><p>P(Default | Features) = P(Features | Default) × P(Default) / P(Features). The model learns prior probabilities from training data and applies them to new borrower profiles.</p></div>
+        <div class="card"><h3>Multinomial NB</h3><p>Used for discrete count features. Models the frequency of each feature value within each class. Applied here to numeric borrower features encoded as discrete values.</p></div>
+        <div class="card"><h3>Bernoulli NB</h3><p>Used for binary features — each feature is either present or absent. Appropriate when borrower attributes are encoded as yes/no indicators such as has_delinquency or is_debt_consolidation.</p></div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- DATA PREP -->
+    <div class="section">
+      <div class="sec-label">Data</div>
+      <h2>Data Preparation for Naïve Bayes</h2>
+      <p>Naïve Bayes is a supervised learning method — it requires labeled data where the outcome (default vs fully paid) is known for each record. The Lending Club dataset provides this label in the binary "default" column (1 = defaulted, 0 = fully paid). All features used must be numeric; categorical columns such as loan grade and employment length were encoded or excluded. The dataset was split into a Training Set (80%) used to build the model and a Testing Set (20%) used to evaluate accuracy. The two sets are strictly disjoint — no record appears in both — ensuring that the model is evaluated on data it has never seen before, which gives an honest measure of real-world predictive performance.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Training Set (80%)</h3>
+          <img src="nb_train_sample.png" alt="NB Training Set" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Training set used to fit the Naïve Bayes model. Contains 80% of the labeled data with the default column included as the target variable.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Testing Set (20%)</h3>
+          <img src="nb_test_sample.png" alt="NB Testing Set" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Testing set used to evaluate model accuracy. Completely disjoint from training data — no overlap ensures honest evaluation of real-world predictive performance.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Labeled Data (CSV)</a>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CODE -->
+    <div class="section">
+      <div class="sec-label">Code</div>
+      <h2>Naïve Bayes Code</h2>
+      <p>Naïve Bayes classification was implemented in Python using Scikit-learn's GaussianNB and MultinomialNB implementations. The full notebook is available on GitHub.</p>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/naivebayes.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View Naïve Bayes Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">scikit-learn, pandas, numpy, matplotlib, seaborn</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- RESULTS -->
+    <div class="section">
+      <div class="sec-label">Results</div>
+      <h2>Naïve Bayes Results</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="nb_confusion_matrix.png" alt="NB Confusion Matrix" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. Confusion matrix showing true positives, true negatives, false positives, and false negatives for the Naïve Bayes model on the test set.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="nb_results.png" alt="NB Results" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Naïve Bayes classification results showing accuracy, precision, recall, and F1-score across default and non-default classes.</p>
+        </div>
+      </div>
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.5rem;font-weight:500;">Model Performance</p>
+        <p style="font-size:0.88rem;color:#7a90b0;margin:0;">Results will be updated after the Naïve Bayes code is executed in Google Colab.</p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CONCLUSIONS -->
+    <div class="section">
+      <div class="sec-label">Conclusions</div>
+      <h2>What Naïve Bayes Revealed About Credit Risk</h2>
+      <p>Conclusions will be updated after results are finalized.</p>
+    </div>
+  </div>
+</div>
+<div class="page" id="p-dectrees">
+  <div style="padding-top:60px;">
+    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sec-label">Module 3 Project</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">Decision Trees</h2>
+        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Applying Decision Tree classification to predict loan default. Decision trees learn simple decision rules from borrower features, producing interpretable models that reveal which financial factors most strongly predict default.</p>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <div class="sec-label">Overview</div>
+      <h2>What are Decision Trees?</h2>
+      <p>A Decision Tree is a supervised learning algorithm that makes predictions by learning a hierarchy of simple decision rules from the training data. Starting from a root node, the tree repeatedly splits the data based on the feature that best separates the classes, creating branches until a final prediction — called a leaf node — is reached. In credit risk analysis, a decision tree might first split borrowers by FICO score, then by debt-to-income ratio, then by interest rate — progressively narrowing down to a prediction of default or no default. The result is a model that is highly interpretable: any prediction can be traced back through the tree to understand exactly which rules led to it.</p>
+      <p>The quality of each split in a decision tree is measured using impurity metrics. <strong style="color:var(--gold2);">Gini Impurity</strong> measures the probability of incorrectly classifying a randomly chosen element — a value of 0 means the node is perfectly pure (all one class), while 0.5 means maximum impurity. <strong style="color:var(--gold2);">Entropy</strong> is an information-theoretic measure of disorder in a node — a pure node has entropy of 0, while a perfectly mixed node has entropy of 1. <strong style="color:var(--gold2);">Information Gain</strong> measures how much a split reduces entropy or Gini impurity — the split with the highest information gain is chosen at each node. For example, if a node contains 100 borrowers (80 paid, 20 defaulted) and splitting on FICO &gt; 700 creates one child with 70 paid/5 defaulted and another with 10 paid/15 defaulted, the information gain of this split can be calculated to determine if it is the best available split. An infinite number of trees can theoretically be constructed because at each node, any feature and any threshold can be chosen, and the tree can grow to any depth — the combination of features, thresholds, and depths creates an essentially unlimited search space.</p>
+
+      <div class="card-grid" style="margin-top:2rem;">
+        <div class="card"><h3>Gini Impurity</h3><p>Measures probability of incorrect classification. Gini = 1 - Σ(pᵢ²). A value of 0 means perfectly pure node. Used by CART algorithm to find the best split at each node.</p></div>
+        <div class="card"><h3>Entropy & Information Gain</h3><p>Entropy = -Σ(pᵢ log₂ pᵢ). Information Gain = parent entropy minus weighted average of child entropies. The split that maximizes Information Gain is selected.</p></div>
+        <div class="card"><h3>Why Infinite Trees?</h3><p>Any feature, any threshold, any depth can be chosen at each node. The combination of these choices creates an unlimited search space — pruning and max_depth constraints are used to control complexity.</p></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <img src="dt_overview1.png" alt="Decision Tree Structure" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. Decision tree structure showing root node, branches, and leaf nodes. Each split divides borrowers based on a feature threshold that maximizes information gain.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <img src="dt_overview2.png" alt="Gini and Entropy Example" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Comparison of Gini impurity and Entropy as split quality metrics. Both metrics reach minimum at pure nodes and maximum at equal class distribution.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- DATA PREP -->
+    <div class="section">
+      <div class="sec-label">Data</div>
+      <h2>Data Preparation for Decision Trees</h2>
+      <p>Decision Trees require labeled data with the target variable included. The same 80/20 train/test split used for Naïve Bayes is applied here. All features are numeric and the binary default column (1 = defaulted, 0 = fully paid) serves as the target. Three different trees are built using different max_depth values to compare performance and complexity.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Training Set (80%)</h3>
+          <img src="nb_train_sample.png" alt="DT Training Set" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Training set used to grow the decision tree. The model learns split rules from this data — 80% of the labeled Lending Club sample.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Testing Set (20%)</h3>
+          <img src="nb_test_sample.png" alt="DT Testing Set" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Testing set used to evaluate tree accuracy. Disjoint from training data — no overlap ensures the tree is tested on unseen borrower profiles.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Labeled Data (CSV)</a>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CODE -->
+    <div class="section">
+      <div class="sec-label">Code</div>
+      <h2>Decision Tree Code</h2>
+      <p>Decision Tree classification was implemented in Python using Scikit-learn's DecisionTreeClassifier. Three trees were built with different max_depth values to compare complexity and accuracy. The full notebook is available on GitHub.</p>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/naivebayes.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View Decision Tree Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">scikit-learn, pandas, numpy, matplotlib, seaborn</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- RESULTS -->
+    <div class="section">
+      <div class="sec-label">Results</div>
+      <h2>Decision Tree Results</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="dt_confusion_matrix.png" alt="DT Confusion Matrix" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. Confusion matrix for the best Decision Tree model on the test set.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="dt_accuracy.png" alt="DT Accuracy Comparison" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Accuracy comparison across three trees with different max_depth values.</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="dt_tree1.png" alt="Decision Tree Depth 3" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Decision Tree with max_depth=3. Simple, interpretable tree showing top-level splits.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="dt_tree2.png" alt="Decision Tree Depth 5" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Decision Tree with max_depth=5. Moderate complexity capturing more borrower patterns.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="dt_tree3.png" alt="Decision Tree Depth 10" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 5. Decision Tree with max_depth=10. Deeper tree with higher training accuracy but risk of overfitting.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CONCLUSIONS -->
+    <div class="section">
+      <div class="sec-label">Conclusions</div>
+      <h2>What Decision Trees Revealed About Credit Risk</h2>
+      <p>Conclusions will be updated after results are finalized.</p>
+    </div>
+  </div>
+</div>
 <div class="page" id="p-svms"><div class="coming"><div class="coming-icon">⚡</div><h2>SVMs — Support Vector Machines</h2><p>SVM classification results across multiple kernels — linear, RBF, polynomial — will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-regression"><div class="coming"><div class="coming-icon">📈</div><h2>Regression</h2><p>Logistic regression models predicting default probability with coefficient analysis will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-nn"><div class="coming"><div class="coming-icon">🧠</div><h2>Neural Networks</h2><p>Deep learning architectures trained on borrower data for credit risk prediction will appear here.</p><span class="pill">Coming Soon</span></div></div>
