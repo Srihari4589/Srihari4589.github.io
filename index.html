@@ -559,7 +559,11 @@ hr.div{border:none;border-top:1px solid var(--border);}
       </div>
       <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
         <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.5rem;font-weight:500;">Model Performance</p>
-        <p style="font-size:0.88rem;color:#7a90b0;margin:0;">Results will be updated after the Naïve Bayes code is executed in Google Colab.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e2c97e;">79.24%</div><div style="font-size:0.75rem;color:#7a90b0;">Overall Accuracy</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#2ecc71;">205,744</div><div style="font-size:0.75rem;color:#7a90b0;">True Negatives (Paid correctly)</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e74c3c;">46,404</div><div style="font-size:0.75rem;color:#7a90b0;">False Negatives (Defaults missed)</div></div>
+        </div>
       </div>
     </div>
 
@@ -569,7 +573,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What Naïve Bayes Revealed About Credit Risk</h2>
-      <p>Conclusions will be updated after results are finalized.</p>
+      <p>Naïve Bayes analysis of Lending Club borrower data revealed several important insights about the nature of loan default risk. The 79.24% accuracy confirms that a borrower's financial profile — income, FICO score, interest rate, and debt-to-income ratio — contains meaningful information for predicting whether a loan will be repaid. This finding supports the core premise of this research: that credit risk is not random, and that quantifiable borrower characteristics are genuinely predictive of repayment behavior. The model's tendency to predict most borrowers as fully paid reflects a real truth about the lending population — the vast majority of borrowers do repay their loans, and the 80/20 class split mirrors real-world default rates documented by the Federal Reserve. The 46,404 missed defaults represent the most critical challenge in credit risk modeling — these are the loans approved for borrowers who ultimately cannot repay, resulting in direct financial losses. From a business perspective, identifying these high-risk borrowers before approval is far more valuable than accurately classifying low-risk borrowers, because the cost of a missed default substantially exceeds the cost of denying a creditworthy applicant. The strong correlation between features like interest rate and FICO score — which violates Naïve Bayes' independence assumption — suggests that credit risk is driven by interconnected financial behaviors rather than isolated characteristics. This points toward the need for models that capture feature interactions, which will be explored in the Decision Tree, SVM, and Neural Network modules. For financial institutions seeking to reduce default rates, even a modest improvement in identifying the 20% of high-risk borrowers could translate into billions of dollars in avoided losses annually. The Naïve Bayes model establishes a useful baseline — any subsequent model must outperform 79.24% accuracy and, more importantly, achieve better recall on the default class to be considered genuinely useful for credit risk applications.</p>
     </div>
   </div>
 </div>
@@ -693,7 +697,15 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What Decision Trees Revealed About Credit Risk</h2>
-      <p>Conclusions will be updated after results are finalized.</p>
+      <div style="margin-bottom:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Accuracy by Tree Depth</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#3498db;">80.04%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=3</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#2ecc71;">80.04%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=5</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e74c3c;">80.08%</div><div style="font-size:0.75rem;color:#7a90b0;">Depth=7</div></div>
+        </div>
+      </div>
+      <p>Decision Tree analysis of the Lending Club dataset produced one of the most important findings in this research — interest rate alone accounts for approximately 78% of the predictive signal for loan default. This single insight directly answers Research Question Q07: the interest rates assigned to loans do accurately reflect the underlying risk of default, confirming that lenders who set higher rates for riskier borrowers are capturing genuine risk information. The fact that all three trees — with depths of 3, 5, and 7 — achieve nearly identical accuracy of approximately 80% reveals that credit risk prediction saturates quickly, meaning the most important risk signal is concentrated in a single variable rather than distributed across complex interactions. This is a meaningful finding for the credit risk industry: while borrowers may have complex financial profiles, the loan terms they receive — particularly the interest rate — are themselves powerful predictors of repayment capacity. The shallow depth=3 tree is particularly valuable because it produces a fully interpretable model that any loan officer could apply: a borrower with an interest rate above 13% faces significantly elevated default risk, and this threshold alone correctly classifies 80% of borrowers. The class imbalance limitation — where the tree predicts almost all borrowers as fully paid — reflects a genuine characteristic of the lending population where defaults are the minority outcome. However, it also highlights the central challenge of credit risk modeling: understanding which borrowers fall into the high-risk 20% is more valuable than correctly identifying the safe 80%. The decision tree has identified interest rate as the single most powerful indicator of default risk — a finding with direct, actionable implications for how lenders price and approve loans. Lenders who assign high interest rates to borrowers are already implicitly acknowledging elevated risk, and these results suggest that using that rate as a hard threshold could serve as a simple but effective early warning system. Future modules using SVMs, regression, and neural networks will explore whether capturing non-linear feature interactions can meaningfully improve default detection beyond the 80% baseline established here.</p>
     </div>
   </div>
 </div>
