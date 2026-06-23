@@ -600,6 +600,20 @@ hr.div{border:none;border-top:1px solid var(--border);}
         <div class="card"><h3>Why Infinite Trees?</h3><p>Any feature, any threshold, any depth can be chosen at each node. The combination of these choices creates an unlimited search space — pruning and max_depth constraints are used to control complexity.</p></div>
       </div>
 
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Worked Example — Gini Impurity &amp; Information Gain</p>
+        <p style="font-size:0.88rem;color:#a8bcd4;line-height:1.9;margin-bottom:0.8rem;">Consider a node with 100 borrowers: 80 Fully Paid, 20 Defaulted.</p>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#7a90b0;line-height:2;margin-bottom:0.8rem;">
+          Parent Gini = 1 - (0.80² + 0.20²) = 1 - (0.64 + 0.04) = 0.32<br/><br/>
+          Split on int_rate ≤ 13%:<br/>
+          &nbsp;&nbsp;Left child (65 borrowers): 60 Paid, 5 Default → Gini = 1 - (0.923² + 0.077²) = 0.142<br/>
+          &nbsp;&nbsp;Right child (35 borrowers): 20 Paid, 15 Default → Gini = 1 - (0.571² + 0.429²) = 0.490<br/><br/>
+          Weighted Gini = (65/100) × 0.142 + (35/100) × 0.490 = 0.092 + 0.172 = 0.264<br/><br/>
+          Information Gain = Parent Gini - Weighted Gini = 0.32 - 0.264 = 0.056
+        </p>
+        <p style="font-size:0.88rem;color:#a8bcd4;line-height:1.9;margin:0;">The split on interest rate ≤ 13% reduces Gini impurity by 0.056. The algorithm compares this against all possible splits and selects the one with the highest Information Gain.</p>
+      </div>
+
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
         <div class="card" style="padding:1.2rem;">
           <img src="dt_overview1.png" alt="Decision Tree Structure" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
