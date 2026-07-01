@@ -208,6 +208,14 @@ hr.div{border:none;border-top:1px solid var(--border);}
   <hr class="div"/>
 
   <div class="section">
+    <div class="sec-label">The Future of Credit</div>
+    <h2>Data, Fairness, and the Promise of Better Credit Systems</h2>
+    <p>The question of who deserves credit has never been purely financial — it has always been entangled with questions of trust, identity, and social belonging. For most of human history, access to credit was determined not by data but by relationships: a merchant's reputation in the community, a farmer's standing with the local guild, or a business owner's connections to powerful patrons who could vouch for their character. The industrialization of credit in the twentieth century replaced these personal relationships with standardized scores, promising objectivity but often encoding the same social biases in numerical form — denying credit to entire zip codes, occupations, and demographic groups without examining individual circumstances. The rise of big data and machine learning offers a fundamentally different promise: the ability to evaluate each borrower as an individual, based on their own specific financial behavior rather than the group averages assigned to people who look like them. This shift has profound implications for financial inclusion — the effort to bring the estimated 1.7 billion unbanked adults worldwide into the formal financial system and give them access to the capital that can transform their economic circumstances. Research has shown that alternative data sources — including mobile phone usage patterns, utility payment histories, and social network characteristics — can predict creditworthiness with remarkable accuracy for populations that traditional credit scoring systems have consistently excluded. The credit risk landscape is also being reshaped by global economic forces that no individual borrower can control: rising interest rates, inflation, labor market disruptions, and the lingering effects of pandemic-era financial shocks continue to affect repayment capacity across the lending population. Regulatory frameworks around the world are struggling to keep pace with these changes, as consumer protection laws written for a paper-based banking era grapple with the speed and opacity of algorithmic decision-making. The ethical dimensions of automated credit decisions have come under increasing scrutiny, with researchers and regulators questioning whether machine learning models trained on historical data may perpetuate or amplify existing patterns of discrimination. Addressing these concerns requires not just better algorithms but a broader conversation about what fairness means in the context of credit — and who gets to define it. The research presented here contributes to that conversation by applying a comprehensive set of machine learning methods to real borrower data, with the goal of understanding not just who defaults, but why — and what a more accurate and equitable credit system might look like.</p>
+  </div>
+
+  <hr class="div"/>
+
+  <div class="section">
     <div class="sec-label">Research Agenda</div>
     <h2>10 Questions This Project Aims to Answer</h2>
     <div class="q-grid">
@@ -723,7 +731,163 @@ hr.div{border:none;border-top:1px solid var(--border);}
     </div>
   </div>
 </div>
-<div class="page" id="p-svms"><div class="coming"><div class="coming-icon">⚡</div><h2>SVMs — Support Vector Machines</h2><p>SVM classification results across multiple kernels — linear, RBF, polynomial — will appear here.</p><span class="pill">Coming Soon</span></div></div>
+<div class="page" id="p-svms">
+  <div style="padding-top:60px;">
+    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sec-label">Module 4 Project</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">SVMs — Support Vector Machines</h2>
+        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Applying Support Vector Machines to predict loan default using three different kernels — linear, polynomial, and RBF — with varying cost parameters to find the optimal model for credit risk classification.</p>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <div class="sec-label">Overview</div>
+      <h2>What are Support Vector Machines?</h2>
+      <p>A Support Vector Machine (SVM) is a supervised learning algorithm that finds the optimal boundary — called a hyperplane — that separates data points of different classes with the maximum possible margin. The "support vectors" are the data points closest to the decision boundary; these are the points that define and support the hyperplane. SVMs are fundamentally linear separators: in their basic form, they draw a straight line (in 2D), a plane (in 3D), or a hyperplane (in higher dimensions) that divides the two classes. The goal is to maximize the margin between the support vectors of each class and the decision boundary — a larger margin generally leads to better generalization on new data. In credit risk analysis, an SVM attempts to find the financial boundary that best separates borrowers who will default from those who will fully repay.</p>
+      <p>The power of SVMs comes from the <strong style="color:var(--gold2);">kernel trick</strong> — a mathematical technique that allows SVMs to find non-linear decision boundaries without explicitly computing the transformation. A kernel function computes the dot product between two data points in a higher-dimensional space, without ever actually mapping those points to that space. The dot product is critical because the SVM optimization problem only requires knowing the similarity between pairs of points — which is exactly what the dot product measures. By replacing the standard dot product with a kernel function, the SVM can operate as if the data were in a much higher-dimensional space where it becomes linearly separable, while keeping all computations in the original lower-dimensional space.</p>
+      <p>Two key kernel functions are used in this analysis. The <strong style="color:var(--gold2);">Polynomial Kernel</strong> is defined as K(x, y) = (x · y + r)^d, where r is a constant and d is the polynomial degree. The <strong style="color:var(--gold2);">RBF (Radial Basis Function) Kernel</strong> is defined as K(x, y) = exp(-γ ||x - y||²), where γ controls how far the influence of a single training example reaches. The RBF kernel is particularly powerful because it can create arbitrarily complex decision boundaries, making it suitable for credit risk data where the relationship between features and default is highly non-linear.</p>
+
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Worked Example — Polynomial Kernel with r=1, d=2</p>
+        <p style="font-size:0.88rem;color:#a8bcd4;line-height:1.9;margin-bottom:0.8rem;">Take a 2D point x = (x₁, x₂). With polynomial kernel K(x,y) = (x·y + 1)² where r=1, d=2, the kernel implicitly maps x to a higher-dimensional space:</p>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#7a90b0;line-height:2;margin-bottom:0.8rem;">
+          Original 2D point: x = (x₁, x₂)<br/><br/>
+          Kernel: K(x, y) = (x·y + 1)²<br/>
+          = (x₁y₁ + x₂y₂ + 1)²<br/>
+          = x₁²y₁² + x₂²y₂² + 1 + 2x₁y₁x₂y₂ + 2x₁y₁ + 2x₂y₂<br/><br/>
+          This equals the dot product in 6D space:<br/>
+          φ(x) = (x₁², x₂², 1, √2·x₁x₂, √2·x₁, √2·x₂)<br/><br/>
+          Example: x = (2, 3) maps to:<br/>
+          φ(2,3) = (4, 9, 1, √2·6, √2·2, √2·3) = (4, 9, 1, 8.49, 2.83, 4.24)
+        </p>
+        <p style="font-size:0.88rem;color:#a8bcd4;margin:0;">The 2D point (2, 3) is implicitly cast into a 6-dimensional space where it may become linearly separable — without ever explicitly computing the 6D coordinates during training.</p>
+      </div>
+
+      <div class="card-grid" style="margin-top:2rem;">
+        <div class="card"><h3>Linear Kernel</h3><p>K(x,y) = x·y. Standard dot product — finds a linear hyperplane. Works well when data is already linearly separable. Fastest to train.</p></div>
+        <div class="card"><h3>Polynomial Kernel</h3><p>K(x,y) = (x·y + r)^d. Maps data to polynomial feature space. r=1, d=2 maps 2D points to 6D. Captures curved decision boundaries.</p></div>
+        <div class="card"><h3>RBF Kernel</h3><p>K(x,y) = exp(-γ||x-y||²). Maps data to infinite-dimensional space. Most flexible kernel — can fit any smooth decision boundary.</p></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <img src="svm_overview1.png" alt="SVM Hyperplane and Margin" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. SVM finds the optimal hyperplane that maximizes the margin between classes. Support vectors are the data points closest to the decision boundary.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <img src="svm_overview2.png" alt="Kernel Trick Visualization" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. The kernel trick maps non-linearly separable data in low dimensions to a higher-dimensional space where a linear boundary can separate the classes.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- DATA PREP -->
+    <div class="section">
+      <div class="sec-label">Data</div>
+      <h2>Data Preparation for SVMs</h2>
+      <p>SVMs require labeled numeric data only — they cannot work with categorical variables or missing values. Like Naïve Bayes and Decision Trees, SVMs are supervised methods requiring a binary target label. The Lending Club default column (0 = Fully Paid, 1 = Defaulted) serves as the target. All 9 numeric borrower features are used after StandardScaler normalization — scaling is especially critical for SVMs because the algorithm is sensitive to the magnitude of feature values. The same 80/20 stratified train/test split used in previous modules is applied here. Due to the computational cost of SVMs on large datasets, a stratified sample of 10,000 rows is used for training to keep computation feasible while preserving the 19.96% default rate.</p>
+
+      <div style="margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Full Labeled Dataset — Sample</h3>
+          <img src="nb_data_sample.png" alt="Full Labeled Dataset Sample" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Sample of the full labeled dataset used for SVM classification. 9 numeric borrower features plus the binary default label. SVMs require numeric data only — categorical features are excluded.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Training Set (80%)</h3>
+          <img src="nb_train_sample.png" alt="SVM Training Set" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Training set used to fit the SVM models. 80% of labeled data with the default column as target. StandardScaler applied before fitting.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Testing Set (20%)</h3>
+          <img src="nb_test_sample.png" alt="SVM Testing Set" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Testing set used to evaluate SVM accuracy. Completely disjoint from training data — ensures evaluation on unseen borrower profiles.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Labeled Data (CSV)</a>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CODE -->
+    <div class="section">
+      <div class="sec-label">Code</div>
+      <h2>SVM Code</h2>
+      <p>SVM classification was implemented in Python using Scikit-learn's SVC (Support Vector Classifier). Three kernels were tested — linear, polynomial (degree=2), and RBF — each with multiple cost values (C=0.1, C=1, C=10) to find the optimal configuration. Since Python's Scikit-learn SVM requires numeric data only, all categorical features were excluded. The full notebook is available on GitHub.</p>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/svms.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View SVM Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">scikit-learn, pandas, numpy, matplotlib, seaborn</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- RESULTS -->
+    <div class="section">
+      <div class="sec-label">Results</div>
+      <h2>SVM Results — Three Kernels Compared</h2>
+      <p>Three SVM kernels were evaluated — linear, polynomial (degree=2), and RBF — each tested with cost values C=0.1, C=1, and C=10. Results will be updated after code execution.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="svm_cm_linear.png" alt="Linear Kernel Confusion Matrix" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. Confusion matrix — Linear kernel. Best cost will be reported after evaluation.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="svm_cm_poly.png" alt="Polynomial Kernel Confusion Matrix" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Confusion matrix — Polynomial kernel (degree=2). Best cost will be reported after evaluation.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="svm_cm_rbf.png" alt="RBF Kernel Confusion Matrix" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Confusion matrix — RBF kernel. Best cost will be reported after evaluation.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="svm_comparison.png" alt="SVM Kernel Comparison" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Accuracy comparison across all three kernels and cost values. Shows which kernel and cost combination produces the best results.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="svm_confusion_all.png" alt="All Kernels Confusion Matrix" style="width:100%;border-radius:4px;"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Side-by-side confusion matrices for all three kernels at C=0.1. All kernels show the same pattern — strong performance on the majority class (Fully Paid) but limited detection of defaults.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.8rem;font-weight:500;">Kernel Comparison Summary</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;">
+          <div style="text-align:center;"><div style="font-size:1.2rem;font-weight:700;color:#3498db;">79.70%</div><div style="font-size:0.75rem;color:#7a90b0;">Linear (all C values)</div></div>
+          <div style="text-align:center;"><div style="font-size:1.2rem;font-weight:700;color:#2ecc71;">79.70%</div><div style="font-size:0.75rem;color:#7a90b0;">Polynomial C=0.1</div></div>
+          <div style="text-align:center;"><div style="font-size:1.2rem;font-weight:700;color:#e74c3c;">79.70%</div><div style="font-size:0.75rem;color:#7a90b0;">RBF C=0.1 & C=10</div></div>
+        </div>
+        <p style="font-size:0.88rem;color:#7a90b0;margin:0;">Best kernel: <strong style="color:var(--gold2);">Linear with C=0.1</strong> — achieves 79.70% accuracy with the fastest training time (1.0s) and simplest model. All kernels converge to the same accuracy, suggesting the decision boundary in this dataset is fundamentally linear.</p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <!-- CONCLUSIONS -->
+    <div class="section">
+      <div class="sec-label">Conclusions</div>
+      <h2>What SVMs Revealed About Credit Risk</h2>
+      <p>Support Vector Machine analysis of the Lending Club credit risk data produced a striking and consistent finding: all three kernels — linear, polynomial, and RBF — achieved nearly identical accuracy of approximately 79.70%, regardless of the cost parameter used. This convergence is itself a meaningful result, as it strongly suggests that the decision boundary separating defaulting borrowers from fully paid borrowers is fundamentally linear in the feature space defined by interest rate, FICO score, income, and debt-to-income ratio. The linear kernel's ability to match the performance of the far more complex RBF kernel confirms that no amount of additional mathematical sophistication can extract non-linear patterns that are not present in these particular features. This finding aligns with the Decision Tree results from the previous module, where interest rate alone captured 78% of the predictive signal — a linear threshold on a single variable is inherently a linear boundary. The fact that increasing the cost parameter from C=0.1 to C=10 produced no accuracy improvement across any kernel is equally informative: the data is not suffering from underfitting due to excessive regularization, but rather from a fundamental limitation in the features available. For credit risk practitioners, this means that the standard financial variables recorded by lenders — while predictive to a point — may not capture the full complexity of borrower behavior and default risk. Alternative data sources such as behavioral signals, payment timing patterns, or macroeconomic indicators may be needed to push accuracy meaningfully beyond the 80% ceiling observed across Naïve Bayes, Decision Trees, and SVMs. The linear SVM with C=0.1 is recommended as the best model in this module — it achieves the same accuracy as more complex kernels while training in under 2 seconds, making it practical for real-time credit decisioning at scale. These consistent results across three fundamentally different algorithms point toward a deeper truth about this dataset: the class imbalance between defaulters and non-defaulters, combined with the linear nature of the separating boundary, creates a ceiling that can only be overcome by addressing the imbalance directly or incorporating richer feature engineering.</p>
+    </div>
+  </div>
+</div>
 <div class="page" id="p-regression"><div class="coming"><div class="coming-icon">📈</div><h2>Regression</h2><p>Logistic regression models predicting default probability with coefficient analysis will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-nn"><div class="coming"><div class="coming-icon">🧠</div><h2>Neural Networks</h2><p>Deep learning architectures trained on borrower data for credit risk prediction will appear here.</p><span class="pill">Coming Soon</span></div></div>
 <div class="page" id="p-pca">
