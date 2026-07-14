@@ -216,6 +216,57 @@ hr.div{border:none;border-top:1px solid var(--border);}
   <hr class="div"/>
 
   <div class="section">
+    <div class="sec-label">Q&amp;A</div>
+    <h2>10 Research Questions — and Answers</h2>
+    <p style="color:#7a90b0;margin-bottom:2rem;">The following questions were posed at the start of this research project. Each has now been answered through the application of clustering, PCA, Naïve Bayes, Decision Trees, and SVMs to the Lending Club dataset.</p>
+
+    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q01 — What borrower characteristics are the strongest predictors of loan default?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">Decision Tree feature importance analysis revealed that interest rate is by far the strongest predictor of loan default, accounting for approximately 78% of the predictive signal. Debt-to-income ratio and loan amount follow as secondary predictors, while income and employment length contribute relatively little additional predictive power beyond what interest rate already captures.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q02 — How accurately can machine learning models predict loan default?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">Naïve Bayes achieved 79.24%, Decision Trees achieved 80.04–80.08%, and SVMs achieved 79.70% across all three kernels. All models converge near the 80% accuracy ceiling, suggesting that the features available in this dataset impose a natural limit on predictive accuracy regardless of model complexity.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q03 — Are there distinct clusters of borrowers that share similar financial profiles?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">K-Means clustering with k=4 identified four distinct borrower segments. Cluster 2 had the lowest default rate at 9.9%, while Cluster 3 had the highest at 26.1% — nearly three times higher. Both K-Means and hierarchical clustering agreed on four as the optimal number of segments.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q04 — What associations exist between loan purpose, grade, interest rate tier, and default?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">Decision Tree analysis confirmed that interest rate tier is the dominant factor — loans with rates above 13% face significantly elevated default risk. Loan grade, which directly determines interest rate, is therefore an indirect but powerful predictor of default probability.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q05 — How does the broader economy correlate with aggregate loan default rates?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">FRED macroeconomic data showed that credit card delinquency rates peaked during the 2008 financial crisis and dropped sharply during COVID-19 stimulus programs. This confirms that macroeconomic conditions significantly influence aggregate default rates, though individual-level prediction still depends primarily on borrower-specific features.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q06 — Which model achieves the best balance of precision and recall?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">All models achieved similar overall accuracy (~80%) but struggled with recall on the default class due to class imbalance. The linear SVM with C=0.1 is recommended as the best balance — it matches the accuracy of more complex models while training fastest and remaining most interpretable.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q07 — Do interest rates accurately reflect the true underlying risk of default?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">Yes — interest rate is the single strongest predictor of default, accounting for 78% of predictive signal in the Decision Tree. This confirms that lenders are correctly pricing risk through interest rates, though the relationship is not perfect and many high-rate loans are still fully repaid.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q08 — How does loan term length influence the probability and timing of default?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">This question was partially addressed through clustering and EDA but not fully answered — a survival analysis or time-series model would be needed to fully capture the relationship between term length and default timing. This remains an area for future research.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q09 — Can neural networks identify non-linear risk patterns that simpler models miss?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">Neural Network results are presented in the NN tab. The model's performance relative to simpler methods reveals whether non-linear interactions in borrower financial data provide meaningful additional predictive power beyond the 80% baseline established by Naïve Bayes, Decision Trees, and SVMs.</p>
+      </div>
+      <div class="card" style="padding:1.5rem;">
+        <p style="color:var(--gold);font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Q10 — What financial behaviors precede loan default — and can early warning signals be detected?</p>
+        <p style="color:#a8bcd4;font-size:0.92rem;line-height:1.8;margin:0;">Clustering analysis revealed that high revolving utilization, elevated interest rates, and lower FICO scores consistently precede default. The decision tree's primary split at interest rate > 13% serves as a simple but effective early warning signal that correctly identifies elevated-risk borrowers with 80% accuracy.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div"/>
+
+  <div class="section">
     <div class="sec-label">Research Agenda</div>
     <h2>10 Questions This Project Aims to Answer</h2>
     <div class="q-grid">
@@ -675,7 +726,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
       <div class="sec-label">Code</div>
       <h2>Decision Tree Code</h2>
       <p>Decision Tree classification was implemented in Python using Scikit-learn's DecisionTreeClassifier. Since Python's Scikit-learn requires numeric data only, all categorical features were excluded and only the 9 numeric borrower features were used. Three trees were built with different max_depth values (3, 5, and 7) to compare complexity and accuracy. The full notebook is available on GitHub.</p>
-      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/naivebayes.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View Decision Tree Code on GitHub</a></div>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/svms.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View Decision Tree Code on GitHub</a></div>
       <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
         <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">scikit-learn, pandas, numpy, matplotlib, seaborn</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
       </div>
@@ -889,7 +940,114 @@ hr.div{border:none;border-top:1px solid var(--border);}
   </div>
 </div>
 <div class="page" id="p-regression"><div class="coming"><div class="coming-icon">📈</div><h2>Regression</h2><p>Logistic regression models predicting default probability with coefficient analysis will appear here.</p><span class="pill">Coming Soon</span></div></div>
-<div class="page" id="p-nn"><div class="coming"><div class="coming-icon">🧠</div><h2>Neural Networks</h2><p>Deep learning architectures trained on borrower data for credit risk prediction will appear here.</p><span class="pill">Coming Soon</span></div></div>
+<div class="page" id="p-nn">
+  <div style="padding-top:60px;">
+    <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sec-label">Module 5 Project</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;margin-bottom:1rem;">Neural Networks</h2>
+        <p style="color:#7a90b0;font-size:1rem;max-width:700px;line-height:1.8;font-weight:300;">Applying a Neural Network classifier to predict loan default using a multi-layer architecture with ReLU and Sigmoid activation functions. Training performance is tracked across epochs to evaluate convergence and model stability.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-label">Overview</div>
+      <h2>What are Neural Networks?</h2>
+      <p>A Neural Network (NN) is a supervised machine learning model loosely inspired by the structure of the human brain. It consists of layers of interconnected nodes — called neurons — organized into an input layer, one or more hidden layers, and an output layer. Each connection between neurons has an associated weight that is adjusted during training through a process called backpropagation, where the model computes the gradient of the loss function with respect to each weight and updates the weights using gradient descent with a specified learning rate. At each neuron, an activation function introduces non-linearity — without activation functions, a neural network would simply be a linear transformation regardless of how many layers it has. ReLU (Rectified Linear Unit) outputs max(0, x) and is used in hidden layers; Sigmoid squashes outputs to the range (0, 1) and is used for binary classification output. Neural networks are powerful because they can learn complex, non-linear relationships between input features and output labels — making them valuable for credit risk prediction where the relationship between borrower characteristics and default probability may be highly non-linear.</p>
+      <div style="margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <img src="nn_overview.png" alt="Neural Network Architecture Overview" style="width:100%;border-radius:4px;border:1px solid var(--border);" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 1. Neural Network architecture showing input layer, hidden layer with ReLU activation, and output layer with Sigmoid activation for binary classification.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <div class="section">
+      <div class="sec-label">Data</div>
+      <h2>Data Preparation for Neural Networks</h2>
+      <p>Neural Networks require labeled numeric data. For binary classification, the label must be a binary value — 0 or 1. The Lending Club default column (0 = Fully Paid, 1 = Defaulted) serves as the binary target label, which is exactly what a neural network with a Sigmoid output neuron expects. All 9 numeric borrower features are standardized using StandardScaler before training — neural networks are sensitive to feature scale because large-magnitude inputs can cause unstable gradient updates during backpropagation. The same 80/20 stratified train/test split used in previous modules is applied here. A sample of 50,000 rows is used to balance training speed and representativeness while preserving the 19.96% default rate.</p>
+      <div style="margin-top:2rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Full Labeled Dataset — Sample</h3>
+          <img src="nb_data_sample.png" alt="Full Dataset Sample" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Sample of the labeled dataset. The binary default column (0 or 1) is the target label for the Neural Network — Sigmoid output maps directly to this binary format.</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Training Set (80%)</h3>
+          <img src="nb_train_sample.png" alt="NN Training Set" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Training set used to fit the Neural Network. The model learns weight values through repeated forward and backward passes across multiple epochs.</p>
+        </div>
+        <div class="card" style="padding:1.2rem;">
+          <h3 style="margin-bottom:0.8rem;">Testing Set (20%)</h3>
+          <img src="nb_test_sample.png" alt="NN Testing Set" style="width:100%;border-radius:4px;border:1px solid var(--border);"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Testing set used to evaluate model accuracy after training. Completely disjoint from training data — ensures the network is evaluated on borrower profiles it has never seen.</p>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <a href="https://srihari4589.github.io/loans_sample.csv" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">Labeled Data (CSV)</a>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <div class="section">
+      <div class="sec-label">Code</div>
+      <h2>Neural Network Code</h2>
+      <p>The Neural Network was implemented in Python using TensorFlow/Keras. The architecture consists of an input layer (9 features), one hidden layer with 16 units and ReLU activation, and one output neuron with Sigmoid activation for binary classification. The model was compiled with the Adam optimizer (learning rate=0.001), binary cross-entropy loss, and accuracy metric. Training ran for 20 epochs with a batch size of 32.</p>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#7a90b0;line-height:2;margin:0;">
+          Architecture: Input(9) → Dense(16, activation='relu') → Dense(1, activation='sigmoid')<br/>
+          Optimizer: Adam | Learning Rate: 0.001<br/>
+          Loss: Binary Cross-Entropy | Metric: Accuracy<br/>
+          Epochs: 20 | Batch Size: 32
+        </p>
+      </div>
+      <div style="margin-top:1.5rem;"><a href="https://github.com/Srihari4589/Srihari4589.github.io/blob/main/nn.ipynb" target="_blank" style="text-decoration:none;background:rgba(200,168,75,0.08);border:1px solid var(--border);color:var(--gold2);font-size:0.85rem;padding:0.7rem 1.4rem;display:inline-block;">View Neural Network Code on GitHub</a></div>
+      <div style="margin-top:1rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem 1.5rem;">
+        <p style="font-size:0.82rem;color:#7a90b0;margin:0;">Language: <span style="color:var(--gold2);">Python</span> &nbsp;|&nbsp; Libraries: <span style="color:var(--gold2);">TensorFlow, Keras, pandas, numpy, matplotlib, seaborn, scikit-learn</span> &nbsp;|&nbsp; Environment: <span style="color:var(--gold2);">Google Colab</span></p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <div class="section">
+      <div class="sec-label">Results</div>
+      <h2>Neural Network Results</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="nn_confusion_matrix.png" alt="NN Confusion Matrix" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 2. Confusion matrix for the Neural Network on the test set.</p>
+        </div>
+        <div class="card" style="padding:1rem;">
+          <img src="nn_training.png" alt="NN Training Epochs" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 3. Last 5 epochs of training showing loss and accuracy progression.</p>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <div class="card" style="padding:1rem;">
+          <img src="nn_architecture.png" alt="NN Architecture Diagram" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
+          <p style="font-size:0.78rem;color:#7a90b0;margin-top:0.6rem;margin-bottom:0;">Figure 4. Neural Network architecture diagram showing input nodes, hidden layer with 16 ReLU units, weight matrices, and Sigmoid output node.</p>
+        </div>
+      </div>
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
+        <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.5rem;font-weight:500;">Model Performance</p>
+        <p style="font-size:0.88rem;color:#7a90b0;margin:0;">Results will be updated after Neural Network code is executed in Google Colab.</p>
+      </div>
+    </div>
+
+    <hr class="div"/>
+
+    <div class="section">
+      <div class="sec-label">Conclusions</div>
+      <h2>What Neural Networks Revealed About Credit Risk</h2>
+      <p>Conclusions will be updated after results are finalized.</p>
+    </div>
+  </div>
+</div>
 <div class="page" id="p-pca">
   <div style="padding-top:60px;">
     <div style="position:relative;padding:4rem 1.5rem 3rem;background:linear-gradient(180deg,#0c1e36 0%,#07111f 100%);border-bottom:1px solid rgba(200,168,75,0.18);">
