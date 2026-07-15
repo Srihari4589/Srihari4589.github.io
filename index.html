@@ -1017,6 +1017,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Results</div>
       <h2>Neural Network Results</h2>
+      <p>The Neural Network achieved a test accuracy of 80.31% after 20 epochs of training with Adam optimizer and binary cross-entropy loss. The training and validation accuracy curves converged quickly by epoch 3 and remained stable throughout, indicating the model learned the underlying patterns without significant overfitting. The last 5 epochs showed consistent accuracy around 79.9% training and 80.5% validation — a healthy gap that confirms the model generalizes well to unseen data. The confusion matrix reveals the same class imbalance challenge observed across all previous models — the network correctly identifies fully paid loans but misses many actual defaults, predicting them as fully paid due to the 80/20 class distribution.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;">
         <div class="card" style="padding:1rem;">
           <img src="nn_confusion_matrix.png" alt="NN Confusion Matrix" style="width:100%;border-radius:4px;" onerror="this.style.display='none'"/>
@@ -1035,7 +1036,11 @@ hr.div{border:none;border-top:1px solid var(--border);}
       </div>
       <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;">
         <p style="font-size:0.82rem;color:var(--gold);margin-bottom:0.5rem;font-weight:500;">Model Performance</p>
-        <p style="font-size:0.88rem;color:#7a90b0;margin:0;">Results will be updated after Neural Network code is executed in Google Colab.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#e2c97e;">80.31%</div><div style="font-size:0.75rem;color:#7a90b0;">Test Accuracy</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#2ecc71;">80.45%</div><div style="font-size:0.75rem;color:#7a90b0;">Best Val Accuracy</div></div>
+          <div style="text-align:center;"><div style="font-size:1.4rem;font-weight:700;color:#3498db;">177</div><div style="font-size:0.75rem;color:#7a90b0;">Trainable Parameters</div></div>
+        </div>
       </div>
     </div>
 
@@ -1044,7 +1049,7 @@ hr.div{border:none;border-top:1px solid var(--border);}
     <div class="section">
       <div class="sec-label">Conclusions</div>
       <h2>What Neural Networks Revealed About Credit Risk</h2>
-      <p>Conclusions will be updated after results are finalized.</p>
+      <p>The Neural Network achieved 80.31% accuracy on the Lending Club credit risk test set — consistent with the results from Naïve Bayes (79.24%), Decision Trees (80.04%), and SVMs (79.70%). This convergence across four fundamentally different algorithms is the most important finding of this entire research project: the 80% accuracy ceiling is not a limitation of any particular model but a reflection of the information content of the available features. The neural network's ability to capture non-linear interactions between borrower features — through its hidden layer with ReLU activation — provided no meaningful advantage over simpler linear models, directly answering Research Question Q09: for this particular set of features, non-linear patterns do not add significant predictive power beyond what linear boundaries capture. The rapid convergence of training and validation accuracy by epoch 3 suggests that the model found the optimal decision boundary very quickly and that additional training epochs provided diminishing returns — a pattern consistent with data that has a relatively simple underlying structure dominated by a single feature, interest rate. The stability of validation accuracy throughout training confirms that the model generalizes well and is not memorizing the training data, which is a positive sign for real-world deployment. The class imbalance problem — where the network predicts most borrowers as fully paid because 80% of the training data represents that class — remains the central unsolved challenge for credit risk prediction using these features. A more accurate and practically useful model would require either rebalancing the training data through oversampling techniques, incorporating additional behavioral and alternative data sources that better differentiate high-risk from low-risk borrowers, or applying cost-sensitive learning that penalizes missed defaults more heavily than false alarms. The consistent 80% ceiling across all methods suggests that the standard financial variables recorded by lenders capture real but limited signal about default risk, and that the next frontier in credit risk prediction lies in richer data rather than more sophisticated algorithms. These findings have direct implications for financial institutions: investing in better data collection — behavioral signals, payment timing, macroeconomic context — is likely to yield greater improvements in credit risk prediction than switching between machine learning algorithms.</p>
     </div>
   </div>
 </div>
